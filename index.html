@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="bg-image">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <img src="image/name_logo.jpg" alt="" height="50" width="50" style="border-radius: 50%;">
+            <h2 class="web_name" class="shadow p-3 mb-5 bg-body-tertiary rounded">Fahim Mahmud</h2>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="education.html">Education</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="award.html">Awards</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="hobbies.html">Hobbies</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br><br>
+
+    <div class="container text-center" style="width: 100%;">
+        <div class="row" style="width: 100%;">
+            <div class="col" style="width: 100%;">
+                <div id="carouselExampleCaptions" class="carousel slide" style="height: 80%;width: 90%;">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="image/1.jpg" class="d-block w-100" alt="..." style="border-radius: 10%;">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p> Tea coffee & me, Chuadanga</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="image/2.jpg" class="d-block w-100" alt="..." style="border-radius: 10%;">
+                            <div class="carousel-caption d-none d-md-block">
+
+                                <p> Curzon Hall, University of Dhaka</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="image/3.jpg" class="d-block w-100" alt="..." style="border-radius: 10%;">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p> Boddovumi,Alamdanga, Chuadanga</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <img src="image/social.JPG" alt="social_link" usemap="#social_link" width="400" height="379">
+
+                <map name="social_link">
+                    <area shape="poly" coords="107,87
+                    123,84
+                    141,92
+                    142,120
+                    123,132
+                    102,120
+                    96,99" alt="Computer" href="https://www.facebook.com/fahim.mahmmud.1">
+                    <area shape="poly" coords="184,128
+                    194,117
+                    213,115
+                    230,130
+                    224,152
+                    201,161
+                    183,148" alt="Phone" href="https://www.instagram.com/fahim.mahmmud.1">
+                    <area shape="poly" coords="235,216
+                    254,204
+                    286,220
+                    272,243
+                    244,251" alt="Cup of coffee" href="mailto:mahmud.fahim1231@gmail.com">
+
+                    <area shape="poly" coords="192,312
+                    206,287
+                    231,288
+                    242,314
+                    242,314
+                    216,333" alt="Cup of coffee" href="https://www.linkedin.com/in/fahim-mahmud-a95737246/">
+                </map>
+            </div>
+            <div class="col">
+                <p>&#9990; 01521521994 <br>&#9990; 01308267883</p>
+                <h1>About me</h1>
+                <hr>
+                <p>Hello, I am Fahim Mahmud. Currently studing in Software Engineering in IIT,DU. </p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="shadow">
+        <p align="center">&#169;Copyright: Fahim Mahmud <a href="mailto:bsse1231@iit.du.ac.bd">bsse1231@iit.du.ac.bd</a>
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

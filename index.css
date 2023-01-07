@@ -1,0 +1,48 @@
+.web_name
+{
+    color:rgb(135, 31, 0);
+    margin-right: 20px;
+    font-family:cursive;
+    padding-right: 20px; 
+    padding-left: 10px;  
+}
+html,body {
+  height: 100%;
+  /* background-color: blueviolet; */
+}
+div.card {
+    /* width: 250px; */
+    /* box-shadow: 0 4px 8px 0 rgba(134, 133, 133, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    /* text-align: center; */
+    border-bottom-left-radius: 30%;
+  }
+  
+  div.header {
+    font-family: cursive;
+    background-color: #8439033e;
+    color: rgb(13, 13, 13);
+    padding: 10px;
+    font-size: 40px;
+  }
+  
+  div.container {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 10px;
+  }
+
+
+  .bg-image {
+  background-image: url('image/bg/4.jpg');
+  height:auto;
+  width:100%;
+  /* background-size:contain; */
+  /* background-repeat: no-repeat;*/
+  background-position: center; 
+} 
+
+
+.cont
+{
+  height: 100%;
+  width: 100%;
+}
