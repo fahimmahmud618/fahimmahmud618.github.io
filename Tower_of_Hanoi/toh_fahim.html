@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower of Hanoi - Fahim Mahmud</title>
+
+    <style>
+        .towers {
+            border: 1px solid rgba(255, 0, 0, 0.081);
+            /* background-image: url('Presentation1.jpg'); */
+        }
+
+        .hanoi_body {
+            width: 100%;
+            height: auto;
+            background-color: rgb(237, 235, 235);
+            float: left;
+        }
+
+        .bars {
+            height: 20%;
+            /* width: 10%; */
+            background-color: brown;
+            margin: 0.2%;
+            position: static;
+            bottom: 1px;
+        }
+
+        #tower1 {
+            margin: auto;
+            width: 32%;
+            float: left;
+            /* background-color: aquamarine; */
+
+        }
+
+        #tower2 {
+            width: 32%;
+            float: left;
+
+        }
+
+        #tower3 {
+            width: 32%;
+            float: left;
+            /* background-color: greenyellow; */
+        }
+
+        .bars {
+            border-radius: 15%;
+            height: 20px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+
+        #bar1 {
+            width: 20%;
+        }
+
+        #bar2 {
+            width: 40%;
+        }
+
+        #bar3 {
+            width: 60%;
+        }
+
+        #bar4 {
+            width: 80%;
+        }
+
+        .level{
+            float: left;
+            width: 33%;
+        }
+        .btns{
+            margin: 1%;
+        }
+    </style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body>
+    <center>
+        <div class="shadow p-3 mb-5 bg-body-tertiary rounded" ><h2 >Tower of Hanoi <small> <small><small> -by Fahim Mahmud</small></small></small></h2></div>
+        
+        <br><br>
+        <p class="p-3 mb-5 bg-body-tertiary rounded">Game Rule: You have to move all the bars from the 1 <sup>st</sup> block to the 3 <sup>rd</sup> block using the 2 <sup>nd</sup> block. The buttons down are the moves for the game. <strong>Remember: </strong> when you start the game, the timer will start automatically. when you finish it will show your required time to finis the game.</p>
+        <button id="stbtn" onclick="startG()">Start Game</button>
+        <br><br>
+        <!-- <p class="p-3 mb-2 bg-body-tertiary rounded">Enjoy</p> -->
+        <div class="hanoi_body">
+            <div class="towers" id="tower1">
+
+                <!-- <div class="bars" id="bar3"></div>
+                <div class="bars" id="bar1"></div>
+                <div class="bars" id="bar2"></div>
+                <div class="bars" id="bar4"></div> -->
+
+            </div>
+            <div class="towers" id="tower2">
+
+            </div>
+            <div class="towers" id="tower3">
+
+            </div>
+        </div>
+
+        <div>
+            <div class="level">Box 1</div>
+            <div class="level">Box 2</div>
+            <div class="level">Box 3</div>
+        </div>
+
+        <div style="height: 100px;"></div>
+        <div class="buttons_body p-3 mb-5 bg-body-tertiary rounded">
+            <button class="btns" id="b1" onclick="btn1()">1->2</button>
+            <button class="btns" id="b2" onclick="btn2()">1->3</button>
+            <button class="btns" id="b3" onclick="btn3()">2->1</button>
+            <button class="btns" id="b4" onclick="btn4()">2->3</button>
+            <button class="btns" id="b5" onclick="btn5()">3->1</button>
+            <button class="btns" id="b6" onclick="btn6()">3->2</button>
+        </div>
+
+        <footer>
+            <p class="p-3 mb-5 bg-body-tertiary rounded">Copyright: Fahim Mahmud</p>
+        </footer>
+    </center>
+
+    <script>
+        let start;
+        let end;
+        function startG()
+        {
+            console.log("hoissi");
+            alert("Your time will start now\n\nStart Game?");
+            restrart();
+        }
+
+        function rmvall()
+        {
+            let thrtower = document.getElementById('tower3');
+            while (thrtower.firstChild)
+                thrtower.firstChild.remove();
+        }
+        
+        function restrart() {
+            start = Date.now();
+            let fsttower = document.getElementById('tower1');
+            while (fsttower.firstChild)
+                fsttower.firstChild.remove();
+
+            let scdtower = document.getElementById('tower2');
+            while (scdtower.firstChild)
+                scdtower.firstChild.remove();
+
+            let thrtower = document.getElementById('tower3');
+            while (thrtower.firstChild)
+                thrtower.firstChild.remove();
+
+            let bar_1 = document.createElement('div');
+            let bar_2 = document.createElement('div');
+            let bar_3 = document.createElement('div');
+            let bar_4 = document.createElement('div');
+
+            bar_1.setAttribute('class', 'bars');
+            bar_1.setAttribute('id', 'bar1');
+            bar_2.setAttribute('class', 'bars');
+            bar_2.setAttribute('id', 'bar2');
+            bar_3.setAttribute('class', 'bars');
+            bar_3.setAttribute('id', 'bar3');
+            bar_4.setAttribute('class', 'bars');
+            bar_4.setAttribute('id', 'bar4');
+
+            fsttower.insertBefore(bar_4, fsttower.children[0]);
+            fsttower.insertBefore(bar_3, fsttower.children[0]);
+            fsttower.insertBefore(bar_2, fsttower.children[0]);
+            fsttower.insertBefore(bar_1, fsttower.children[0]);
+
+        }
+
+        let lasttower = document.getElementById('tower3');
+
+        function btn1() {
+            let pretower = document.getElementById('tower1');
+            let posttower = document.getElementById('tower2');
+
+            let prebar = pretower.children[0];
+            let prebarid = prebar.getAttribute('id');
+            let newbar = document.createElement('div');
+            newbar.setAttribute('class', 'bars');
+            newbar.setAttribute('id', prebarid);
+
+            prebar.remove();
+            posttower.insertBefore(newbar, posttower.children[0]);
+
+        }
+        function btn2() {
+            let pretower = document.getElementById('tower1');
+            let posttower = document.getElementById('tower3');
+
+            let prebar = pretower.children[0];
+            let prebarid = prebar.getAttribute('id');
+            let newbar = document.createElement('div');
+            newbar.setAttribute('class', 'bars');
+            newbar.setAttribute('id', prebarid);
+
+            prebar.remove();
+            posttower.insertBefore(newbar, posttower.children[0]);
+
+            let a1 = lasttower.children[0].getAttribute('id');
+            let a2 = lasttower.children[1].getAttribute('id');
+            let a3 = lasttower.children[2].getAttribute('id');
+            let a4 = lasttower.children[3].getAttribute('id');
+
+            console.log(a1);
+            console.log(a2);
+            console.log(a3);
+            console.log(a4);
+
+            console.log(lasttower.childElementCount);
+            if ((lasttower.childElementCount == 4) && (a1 == 'bar1') && (a2 == 'bar2') && (a3 == 'bar3') && (a4 == 'bar4')) {
+                end = Date.now();
+                let show = (end - start) / 1000;
+                alert("Congratulation!\n\nYour time is: "+show+ " second");
+                rmvall();
+                document.getElementById('stbtn').innerHTML="Start Again";
+            }
+
+
+        }
+        function btn3() {
+            let pretower = document.getElementById('tower2');
+            let posttower = document.getElementById('tower1');
+
+            let prebar = pretower.children[0];
+            let prebarid = prebar.getAttribute('id');
+            let newbar = document.createElement('div');
+            newbar.setAttribute('class', 'bars');
+            newbar.setAttribute('id', prebarid);
+
+            prebar.remove();
+            posttower.insertBefore(newbar, posttower.children[0]);
+
+        }
+        function btn4() {
+            let pretower = document.getElementById('tower2');
+            let posttower = document.getElementById('tower3');
+
+            let prebar = pretower.children[0];
+            let prebarid = prebar.getAttribute('id');
+            let newbar = document.createElement('div');
+            newbar.setAttribute('class', 'bars');
+            newbar.setAttribute('id', prebarid);
+
+            prebar.remove();
+            posttower.insertBefore(newbar, posttower.children[0]);
+
+            let a1 = lasttower.children[0].getAttribute('id');
+            let a2 = lasttower.children[1].getAttribute('id');
+            let a3 = lasttower.children[2].getAttribute('id');
+            let a4 = lasttower.children[3].getAttribute('id');
+
+            console.log(a1);
+            console.log(a2);
+            console.log(a3);
+            console.log(a4);
+
+            console.log(lasttower.childElementCount);
+            if ((lasttower.childElementCount == 4) && (a1 == 'bar1') && (a2 == 'bar2') && (a3 == 'bar3') && (a4 == 'bar4')) {
+                end = Date.now();
+                let show = (end - start) / 1000;
+                alert("Congratulation!\n\nYour time is: "+show+ " second");
+                rmvall();
+                document.getElementById('stbtn').innerHTML="Start Again";
+            }
+
+        }
+        function btn5() {
+            let pretower = document.getElementById('tower3');
+            let posttower = document.getElementById('tower1');
+
+            let prebar = pretower.children[0];
+            let prebarid = prebar.getAttribute('id');
+            let newbar = document.createElement('div');
+            newbar.setAttribute('class', 'bars');
+            newbar.setAttribute('id', prebarid);
+
+            prebar.remove();
+            posttower.insertBefore(newbar, posttower.children[0]);
+
+        }
+        function btn6() {
+            let pretower = document.getElementById('tower3');
+            let posttower = document.getElementById('tower2');
+
+            let prebar = pretower.children[0];
+            let prebarid = prebar.getAttribute('id');
+            let newbar = document.createElement('div');
+            newbar.setAttribute('class', 'bars');
+            newbar.setAttribute('id', prebarid);
+
+            prebar.remove();
+            posttower.insertBefore(newbar, posttower.children[0]);
+
+        }
+    </script>
+</body>
+
+</html>
