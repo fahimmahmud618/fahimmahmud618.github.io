@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <style>
+        body{
+            background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+        }
+        .option {
+            height: 30%;
+            width: 30%;
+            background-color: aquamarine;
+            margin: 4px;
+            /* float: left; */
+        }
+
+        #count{
+            font-size: large;
+            color: rgb(0, 0, 0);
+        }
+        .ccount{
+            width: 50%;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+
+<body>
+    <center>
+        <div class="alloption">
+            <div class="option shadow p-3 mb-5 bg-body-tertiary rounded" onclick="window.location.href = '/vag.html'">পড়ার ভাগ</div>
+            <div class="option shadow p-3 mb-5 bg-body-tertiary rounded" onclick="window.location.href = '/routine.html'">প্রতিদিনের পড়ার রুটিন</div>
+            <div class="option shadow p-3 mb-5 bg-body-tertiary rounded" onclick="window.location.href = 'https://drive.google.com/drive/u/0/folders/1fNh_yxjnnS08AqmwOdGTwqISOCzmadXs'">পরীক্ষার রেজাল্ট</div>
+        </div>
+        <br><br>
+        <div class="ccount ">
+            <p>This page is vistied</p>
+            <p id="count">0</p>
+            <p>times</p>
+        </div>
+    </center>
+
+    <script>
+        const count = document.getElementById('count');
+
+        totalupdate();
+
+        function totalupdate()
+        {
+            fetch('https://api.countapi.xyz/update/mysitebatch23/hsc/?amount=1')
+            .then((res)=>res.json())
+            .then((res)=>{
+                count.innerHTML=res.value;
+                // val(count,0,res,value,1000);
+            });
+        }
+
+        // function val(obj,start,end,duration)
+        // {
+        //     let startingStamp= null;
+
+        //     const step=(st)=>{
+        //         if(!startingStamp) startingStamp = st;
+        //         const progress=MAth.min((st-startingStamp)/duration,1);
+        //         obj.innerHTML=Math.floor(progress*(end-start)+start)-2000;
+        //         if(progress<1)
+        //         {
+        //             window.requestAnimationFrame(step);
+        //         }
+        //     };
+        //     window.requestAnimationFrame(step);
+        // }
+    </script>
+</body>
+
+</html>
