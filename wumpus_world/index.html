@@ -41,6 +41,18 @@
                 background-image:url(gold.jpg);
                 background-size: 50px 50px;
             }
+            .bt{
+                background-color:rgb(39, 39, 255);
+                border: 1px solid blue;
+                margin: 5px;
+                color: white;
+            }
+            .ri{
+                margin-left: 2px;
+            }
+            .le{
+                margin-right: 2px;
+            }
         </style>
     </head>
 
@@ -171,6 +183,11 @@
             <div class="cell" id="98"></div>
             <div class="cell" id="99"></div>
         </div>
+
+        <button class="bt up" onclick="goup()">Up</button> <br>
+        <button class="bt le" onclick="goleft()">Left</button>
+        <button class="bt ri" onclick="goright()">Right</button><br>
+        <button class="bt do" onclick="godown()">Down</button>
     </center>
     <script>
         // var wumpusNo = 5;
@@ -443,6 +460,43 @@ document.onkeydown = function(event) {
             break;
          }
       };
+
+      function goleft(){
+        if(myPos_Y!=0)
+               {
+                    let theDiv = document.getElementById(posToDivID(myPos_X,myPos_Y));
+                    theDiv.classList.remove("Nvisited");
+                    myPos_Y--;
+                    setAttribute();
+               }
+      }
+      function goright(){
+        if(myPos_Y!=9)
+               {
+                let theDiv = document.getElementById(posToDivID(myPos_X,myPos_Y));
+                    theDiv.classList.remove("Nvisited");
+                    myPos_Y++;
+                    setAttribute();
+               }
+      }
+      function goup(){
+        if(myPos_X!=0)
+               {
+                let theDiv = document.getElementById(posToDivID(myPos_X,myPos_Y));
+                    theDiv.classList.remove("Nvisited");
+                    myPos_X--;
+                    setAttribute();
+               }
+      }
+      function godown(){
+        if(myPos_X!=9)
+               {
+                let theDiv = document.getElementById(posToDivID(myPos_X,myPos_Y));
+                    theDiv.classList.remove("Nvisited");
+                    myPos_X++;
+                    setAttribute();
+               }
+      }
 setAttribute();
 setWumpus();
 setPits();
