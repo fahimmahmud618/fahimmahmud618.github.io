@@ -1,0 +1,863 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Item Counter</title>
+
+  <!-- html2canvas for saving the counter as an image -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: #f4f5f7;
+  color: #171717;
+  padding: 24px 14px;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 650;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.date-section {
+  margin-bottom: 18px;
+}
+
+.date-section label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.date-section input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #222;
+  background: #f8f8f8;
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+  outline: none;
+}
+
+.date-section input:focus {
+  border-color: #999;
+}
+
+
+/* =========================
+   COUNTER LIST
+========================= */
+
+.counter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+
+/* Individual item */
+
+.counter-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 48px;
+
+  padding: 6px 8px 6px 13px;
+
+  background: #fafafa;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+}
+
+
+/* Item name */
+
+.item-name {
+  font-size: 14px;
+  font-weight: 500;
+
+  /* Prevent very long names from stretching the row */
+  max-width: 55%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* Buttons */
+
+.controls button {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 8px;
+
+  font-size: 18px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+
+/* Minus */
+
+.minus {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.minus:hover {
+  background: #e5e5e5;
+}
+
+
+/* Plus */
+
+.plus {
+  background: #171717;
+  color: #ffffff;
+}
+
+.plus:hover {
+  background: #333;
+}
+
+
+/* Click effect */
+
+.controls button:active {
+  transform: scale(0.94);
+}
+
+
+/* Count */
+
+.count {
+  width: 28px;
+
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+
+/* =========================
+   ADD ITEM
+========================= */
+
+.add-section {
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid #eeeeee;
+}
+
+.add-section label {
+  display: block;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+
+  margin-bottom: 6px;
+}
+
+.add-section select {
+  width: 100%;
+  height: 42px;
+
+  padding: 0 12px;
+
+  font-size: 14px;
+
+  color: #333;
+  background: #fafafa;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.add-section select:focus {
+  border-color: #999;
+}
+
+
+/* =========================
+   SAVE BUTTON
+========================= */
+
+.save-section {
+  max-width: 480px;
+  margin: 12px auto 0;
+}
+
+.save-button {
+  width: 100%;
+  height: 44px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #171717;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+.save-button:hover {
+  background: #333;
+}
+
+.save-button:active {
+  transform: scale(0.99);
+}
+
+.save-button:disabled {
+  background: #aaa;
+  cursor: wait;
+}
+
+/* ========================= COUNTER LAYOUT ========================= */ 
+.counter-layout {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 10px;
+  align-items: start;
+}
+
+/* ========================= PACKAGING ========================= */ .packaging-section { background: #fafafa; border: 1px solid #eeeeee; border-radius: 10px; padding: 10px; } .packaging-title { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; } .packaging-list { display: flex; flex-direction: column; gap: 6px; } .packaging-item { display: flex; align-items: center; justify-content: space-between; min-height: 36px; padding: 3px 4px 3px 7px; background: #fff; border: 1px solid #eeeeee; border-radius: 7px; } .packaging-item > span { font-size: 13px; font-weight: 600; } .packaging-controls { display: flex; align-items: center; gap: 3px; } .packaging-controls button { width: 24px; height: 24px; border: 0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; } .pack-minus { background: #f0f0f0; color: #555; } .pack-plus { background: #171717; color: white; } .pack-count { width: 20px; text-align: center; font-size: 12px; } /* Small phone adjustment */ 
+@media (max-width: 380px) {
+  .counter-layout {
+    grid-template-columns: 7fr 3fr;
+    gap: 7px;
+  }
+
+  .packaging-section {
+    padding: 7px;
+  }
+
+  .packaging-controls {
+    gap: 2px;
+  }
+
+  .packaging-controls button {
+    width: 21px;
+    height: 21px;
+    font-size: 13px;
+  }
+
+  .pack-count {
+    width: 17px;
+    font-size: 11px;
+  }
+}
+
+
+/* =========================
+   COMMENT / ADDITIONAL ITEM
+========================= */
+
+.comment-section {
+  margin-top: 14px;
+}
+
+.comment-section label {
+  display: block;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #666;
+
+  margin-bottom: 6px;
+}
+
+.comment-section textarea {
+  width: 100%;
+
+  min-height: 70px;
+
+  padding: 10px 12px;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+
+  color: #222;
+  background: #fafafa;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+
+  outline: none;
+
+  resize: vertical;
+
+  transition: border-color 0.15s ease;
+}
+
+.comment-section textarea:focus {
+  border-color: #999;
+}
+
+.comment-section textarea::placeholder {
+  color: #aaa;
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- Everything inside this container will be saved as an image -->
+  <div class="container" id="result">
+
+    <h1>Mehwish Product Counter</h1>
+
+    <!-- DATE -->
+    <div class="date-section">
+      <label for="datePicker">Date</label>
+
+      <input
+        type="date"
+        id="datePicker"
+      >
+    </div>
+
+
+    <!-- COUNTERS -->
+    <div class="counter-layout">
+
+      <!-- ITEM COUNTER -->
+      <div class="item-counter-section">
+
+        <div
+          id="counterList"
+          class="counter-list"
+        ></div>
+
+      </div>
+
+
+      <!-- PACKAGING COUNTER -->
+      <div class="packaging-section">
+
+        <div class="packaging-title">
+          Packaging
+        </div>
+
+        <div class="packaging-list">
+
+          <div class="packaging-item">
+            <span>S</span>
+
+            <div class="packaging-controls">
+              <button class="pack-minus">−</button>
+              <strong class="pack-count">0</strong>
+              <button class="pack-plus">+</button>
+            </div>
+          </div>
+
+
+          <div class="packaging-item">
+            <span>M</span>
+
+            <div class="packaging-controls">
+              <button class="pack-minus">−</button>
+              <strong class="pack-count">0</strong>
+              <button class="pack-plus">+</button>
+            </div>
+          </div>
+
+
+          <div class="packaging-item">
+            <span>L</span>
+
+            <div class="packaging-controls">
+              <button class="pack-minus">−</button>
+              <strong class="pack-count">0</strong>
+              <button class="pack-plus">+</button>
+            </div>
+          </div>
+
+
+          <div class="packaging-item">
+            <span>XL</span>
+
+            <div class="packaging-controls">
+              <button class="pack-minus">−</button>
+              <strong class="pack-count">0</strong>
+              <button class="pack-plus">+</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ADD UNPOPULAR ITEM -->
+    <div
+      class="add-section"
+      id="addSection"
+    >
+
+      <label for="itemSelect">
+        Add another item
+      </label>
+
+      <select id="itemSelect">
+
+        <option value="">
+          Select an item...
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- COMMENT / ADDITIONAL ITEM -->
+
+<div class="comment-section">
+
+  <label for="comment">
+    Comment / Additional Item
+  </label>
+
+  <textarea
+    id="comment"
+    placeholder="Write a comment or add another item..."
+    rows="3"
+  ></textarea>
+
+</div>
+
+
+  </div>
+
+  
+
+
+
+
+  <!-- SAVE BUTTON -->
+  <!-- Outside #result, so it won't appear in the image -->
+
+  <div class="save-section">
+
+    <button
+      class="save-button"
+      id="saveButton"
+    >
+      📷 Save as Image
+    </button>
+
+  </div>
+
+
+  <script>
+
+    // =========================
+    // DATE
+    // =========================
+
+    const datePicker =
+      document.getElementById("datePicker");
+
+    const today =
+      new Date().toISOString().split("T")[0];
+
+    datePicker.value = today;
+
+
+    // =========================
+    // POPULAR ITEMS
+    // =========================
+
+    const popularItems = [
+      "11B",
+"11R",
+"17B",
+"29B",
+"29R",
+"29R Wavy",
+"Scalp",
+"Round Scalp",
+"DEB 1200",
+"3650 P",
+"5550 P",
+
+    ];
+
+
+    // =========================
+    // UNPOPULAR ITEMS
+    // =========================
+
+    const unpopularItems = [
+      "DRB",
+"SQR",
+"SQR Premium",
+"Premium Scalp",
+"17Bv2",
+"29Bv2",
+"Travel Brush",
+"Travel 11B",
+"2in1 Brush",
+"2in1 Pocket",
+
+    ];
+
+
+    // =========================
+    // ACTIVE ITEMS
+    // =========================
+
+    const activeItems =
+      new Set(popularItems);
+
+
+    const counterList =
+      document.getElementById("counterList");
+
+    const itemSelect =
+      document.getElementById("itemSelect");
+
+
+    // =========================
+    // CREATE ITEM COUNTER
+    // =========================
+
+    function createCounterItem(item) {
+
+      const counterItem =
+        document.createElement("div");
+
+      counterItem.className =
+        "counter-item";
+
+      counterItem.innerHTML = `
+        <span class="item-name">
+          ${item}
+        </span>
+
+        <div class="controls">
+
+          <button class="minus">
+            −
+          </button>
+
+          <span class="count">
+            0
+          </span>
+
+          <button class="plus">
+            +
+          </button>
+
+        </div>
+      `;
+
+
+      const minusButton =
+        counterItem.querySelector(".minus");
+
+      const plusButton =
+        counterItem.querySelector(".plus");
+
+      const countElement =
+        counterItem.querySelector(".count");
+
+
+      plusButton.addEventListener("click", () => {
+
+        let count =
+          Number(countElement.textContent);
+
+        count++;
+
+        countElement.textContent = count;
+
+      });
+
+
+      minusButton.addEventListener("click", () => {
+
+        let count =
+          Number(countElement.textContent);
+
+        if (count > 0) {
+          count--;
+        }
+
+        countElement.textContent = count;
+
+      });
+
+
+      counterList.appendChild(counterItem);
+    }
+
+
+    // =========================
+    // SHOW POPULAR ITEMS
+    // =========================
+
+    popularItems.forEach(item => {
+
+      createCounterItem(item);
+
+    });
+
+
+    // =========================
+    // UPDATE DROPDOWN
+    // =========================
+
+    function updateDropdown() {
+
+      itemSelect.innerHTML = `
+        <option value="">
+          Select an item...
+        </option>
+      `;
+
+
+      unpopularItems.forEach(item => {
+
+        if (!activeItems.has(item)) {
+
+          const option =
+            document.createElement("option");
+
+          option.value = item;
+
+          option.textContent = item;
+
+          itemSelect.appendChild(option);
+
+        }
+
+      });
+
+    }
+
+
+    updateDropdown();
+
+
+    // =========================
+    // ADD UNPOPULAR ITEM
+    // =========================
+
+    itemSelect.addEventListener(
+      "change",
+      () => {
+
+        const selectedItem =
+          itemSelect.value;
+
+        if (!selectedItem) {
+          return;
+        }
+
+        activeItems.add(selectedItem);
+
+        createCounterItem(selectedItem);
+
+        updateDropdown();
+
+      }
+    );
+
+
+    // =========================
+    // PACKAGING COUNTER
+    // =========================
+
+    const packagingItems =
+      document.querySelectorAll(".packaging-item");
+
+
+    packagingItems.forEach(item => {
+
+      const minusButton =
+        item.querySelector(".pack-minus");
+
+      const plusButton =
+        item.querySelector(".pack-plus");
+
+      const countElement =
+        item.querySelector(".pack-count");
+
+
+      plusButton.addEventListener("click", () => {
+
+        let count =
+          Number(countElement.textContent);
+
+        count++;
+
+        countElement.textContent = count;
+
+      });
+
+
+      minusButton.addEventListener("click", () => {
+
+        let count =
+          Number(countElement.textContent);
+
+        if (count > 0) {
+          count--;
+        }
+
+        countElement.textContent = count;
+
+      });
+
+    });
+
+
+    // =========================
+    // SAVE AS IMAGE
+    // =========================
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+
+    saveButton.addEventListener(
+      "click",
+      async () => {
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+          "Creating image...";
+
+
+        try {
+
+          const result =
+            document.getElementById("result");
+
+
+          const canvas =
+            await html2canvas(result, {
+
+              backgroundColor: "#ffffff",
+
+              scale: 2,
+
+              // Make sure the complete content is captured
+              width: result.scrollWidth,
+              height: result.scrollHeight
+
+            });
+
+
+          const image =
+            canvas.toDataURL("image/png");
+
+
+          const link =
+            document.createElement("a");
+
+          link.download =
+            `counter-${datePicker.value}.png`;
+
+          link.href = image;
+
+          link.click();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          alert(
+            "Could not create the image."
+          );
+
+        }
+
+
+        saveButton.disabled = false;
+
+        saveButton.textContent =
+          "📷 Save as Image";
+
+      }
+    );
+
+  </script>
+
+</body>
+
+
+</html>
+
