@@ -642,11 +642,40 @@ h1 {
 
 
   // =====================================================
-  // DATE
+  // DOM ELEMENTS
   // =====================================================
 
   const datePicker =
     document.getElementById("datePicker");
+
+  const counterList =
+    document.getElementById("counterList");
+
+  const itemSelect =
+    document.getElementById("itemSelect");
+
+  const saveButton =
+    document.getElementById("saveButton");
+
+  const saveRecordButton =
+    document.getElementById("saveRecordButton");
+
+  const addNewItemButton =
+    document.getElementById("addNewItemButton");
+
+  const newItemId =
+    document.getElementById("newItemId");
+
+  const newItemName =
+    document.getElementById("newItemName");
+
+  const newItemType =
+    document.getElementById("newItemType");
+
+
+  // =====================================================
+  // DATE
+  // =====================================================
 
   const today =
     new Date().toISOString().split("T")[0];
@@ -655,30 +684,21 @@ h1 {
 
 
   // =====================================================
-  // MAIN DOM ELEMENTS
-  // =====================================================
-
-  const counterList =
-    document.getElementById("counterList");
-
-  const itemSelect =
-    document.getElementById("itemSelect");
-
-
-  // =====================================================
   // ALL ITEMS
   // =====================================================
-  // Products are NO LONGER hardcoded here.
-  //
-  // Apps Script loads them from the "Items" sheet.
-  //
-  // Format:
-  // [ID, Name, Type]
-  //
-  // Type:
-  // "p" = Popular
-  // "u" = Unpopular
-  // =====================================================
+
+  /*
+    Format:
+
+    [
+      [ID, Name, Type],
+      [ID, Name, Type]
+    ]
+
+    Type:
+      p = Popular
+      u = Unpopular
+  */
 
   let allItems = [];
 
@@ -686,14 +706,16 @@ h1 {
   // =====================================================
   // ACTIVE ITEMS
   // =====================================================
-  // IDs currently displayed in the counter.
-  // =====================================================
+
+  /*
+    IDs currently visible in the counter list.
+  */
 
   let activeItems = new Set();
 
 
   // =====================================================
-  // LOAD ITEMS FROM GOOGLE APPS SCRIPT
+  // LOAD ITEMS
   // =====================================================
 
   async function loadItems() {
@@ -701,7 +723,6 @@ h1 {
     try {
 
       console.log("Loading products...");
-
 
       const response =
         await fetch(
@@ -740,11 +761,19 @@ h1 {
 
 
       // -----------------------------------------------
-      // Store items
+      // Normalize items
       // -----------------------------------------------
 
       allItems =
-        result.items || [];
+        (result.items || []).map(item => {
+
+          return [
+            String(item[0]),
+            String(item[1]),
+            String(item[2]).toLowerCase()
+          ];
+
+        });
 
 
       console.log(
@@ -754,7 +783,7 @@ h1 {
 
 
       // -----------------------------------------------
-      // Build the interface
+      // Build interface
       // -----------------------------------------------
 
       initializeItems();
@@ -792,12 +821,12 @@ h1 {
       new Set(
         allItems
           .filter(item => item[2] === "p")
-          .map(item => item[0])
+          .map(item => String(item[0]))
       );
 
 
     // -----------------------------------------------
-    // Clear current counters
+    // Clear counter list
     // -----------------------------------------------
 
     counterList.innerHTML = "";
@@ -817,7 +846,7 @@ h1 {
 
 
     // -----------------------------------------------
-    // Update unpopular dropdown
+    // Update dropdown
     // -----------------------------------------------
 
     updateDropdown();
@@ -843,13 +872,15 @@ h1 {
       .forEach(item => {
 
         const id =
-          item[0];
+          String(item[0]);
 
         const name =
           item[1];
 
 
+        // ---------------------------------------------
         // Only show items not already active
+        // ---------------------------------------------
 
         if (!activeItems.has(id)) {
 
@@ -877,7 +908,7 @@ h1 {
 
 
   // =====================================================
-  // ADD UNPOPULAR ITEM TO COUNTER
+  // ADD UNPOPULAR ITEM TO MAIN COUNTER
   // =====================================================
 
   itemSelect.addEventListener(
@@ -885,8 +916,18 @@ h1 {
     () => {
 
       const selectedId =
-        itemSelect.value;
+        String(itemSelect.value).trim();
 
+
+      console.log(
+        "Selected item ID:",
+        selectedId
+      );
+
+
+      // ---------------------------------------------
+      // Nothing selected
+      // ---------------------------------------------
 
       if (!selectedId) {
 
@@ -895,36 +936,88 @@ h1 {
       }
 
 
+      // ---------------------------------------------
+      // Find selected item
+      //
+      // IMPORTANT:
+      // Both IDs are converted to String.
+      // This fixes Google Sheet number/string mismatch.
+      // ---------------------------------------------
+
       const selectedItem =
         allItems.find(
-          item => item[0] === selectedId
+          item =>
+            String(item[0]).trim() === selectedId
         );
 
 
+      console.log(
+        "Selected item:",
+        selectedItem
+      );
+
+
+      // ---------------------------------------------
+      // Item not found
+      // ---------------------------------------------
+
       if (!selectedItem) {
+
+        console.error(
+          "Could not find selected item:",
+          selectedId,
+          allItems
+        );
+
+        alert(
+          "Could not find the selected item."
+        );
 
         return;
 
       }
 
 
+      // ---------------------------------------------
+      // Prevent duplicate
+      // ---------------------------------------------
+
+      if (activeItems.has(selectedId)) {
+
+        itemSelect.value = "";
+
+        return;
+
+      }
+
+
+      // ---------------------------------------------
       // Add to active items
+      // ---------------------------------------------
 
       activeItems.add(
         selectedId
       );
 
 
-      // Create counter
+      // ---------------------------------------------
+      // Add item to main list
+      // ---------------------------------------------
 
       createCounterItem(
         selectedItem
       );
 
 
+      // ---------------------------------------------
       // Refresh dropdown
+      // ---------------------------------------------
 
       updateDropdown();
+
+
+      // Reset select
+      itemSelect.value = "";
 
     }
   );
@@ -937,14 +1030,35 @@ h1 {
   function createCounterItem(item) {
 
     const id =
-      item[0];
+      String(item[0]);
 
     const name =
-      item[1];
+      String(item[1]);
 
     const type =
-      item[2];
+      String(item[2]);
 
+
+    // -----------------------------------------------
+    // Prevent duplicate visual item
+    // -----------------------------------------------
+
+    const existing =
+      counterList.querySelector(
+        `.counter-item[data-item-id="${CSS.escape(id)}"]`
+      );
+
+
+    if (existing) {
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // Create element
+    // -----------------------------------------------
 
     const counterItem =
       document.createElement("div");
@@ -986,6 +1100,10 @@ h1 {
       </div>
     `;
 
+
+    // -----------------------------------------------
+    // Get controls
+    // -----------------------------------------------
 
     const minusButton =
       counterItem.querySelector(
@@ -1058,11 +1176,18 @@ h1 {
 
 
     // -----------------------------------------------
-    // Add to page
+    // Add to main list
     // -----------------------------------------------
 
     counterList.appendChild(
       counterItem
+    );
+
+
+    console.log(
+      "Counter item added:",
+      id,
+      name
     );
 
   }
@@ -1075,11 +1200,26 @@ h1 {
   function escapeHtml(value) {
 
     return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
 
   }
 
@@ -1174,30 +1314,6 @@ h1 {
   // ADD NEW ITEM
   // =====================================================
 
-  const addNewItemButton =
-    document.getElementById(
-      "addNewItemButton"
-    );
-
-
-  const newItemId =
-    document.getElementById(
-      "newItemId"
-    );
-
-
-  const newItemName =
-    document.getElementById(
-      "newItemName"
-    );
-
-
-  const newItemType =
-    document.getElementById(
-      "newItemType"
-    );
-
-
   addNewItemButton.addEventListener(
     "click",
     async () => {
@@ -1205,17 +1321,15 @@ h1 {
       const id =
         newItemId.value.trim();
 
-
       const name =
         newItemName.value.trim();
-
 
       const type =
         newItemType.value;
 
 
       // -----------------------------------------------
-      // Validate
+      // Validate ID
       // -----------------------------------------------
 
       if (!id) {
@@ -1231,6 +1345,10 @@ h1 {
       }
 
 
+      // -----------------------------------------------
+      // Validate name
+      // -----------------------------------------------
+
       if (!name) {
 
         alert(
@@ -1243,6 +1361,10 @@ h1 {
 
       }
 
+
+      // -----------------------------------------------
+      // Validate type
+      // -----------------------------------------------
 
       if (
         type !== "p" &&
@@ -1259,13 +1381,13 @@ h1 {
 
 
       // -----------------------------------------------
-      // Check duplicate locally
+      // Check duplicate ID
       // -----------------------------------------------
 
       const existingId =
         allItems.some(
           item =>
-            String(item[0]) === id
+            String(item[0]).trim() === id
         );
 
 
@@ -1280,10 +1402,16 @@ h1 {
       }
 
 
+      // -----------------------------------------------
+      // Check duplicate name
+      // -----------------------------------------------
+
       const existingName =
         allItems.some(
           item =>
-            String(item[1]).toLowerCase() ===
+            String(item[1])
+              .trim()
+              .toLowerCase() ===
             name.toLowerCase()
         );
 
@@ -1306,7 +1434,6 @@ h1 {
       addNewItemButton.disabled =
         true;
 
-
       addNewItemButton.textContent =
         "Adding...";
 
@@ -1314,7 +1441,7 @@ h1 {
       try {
 
         // ---------------------------------------------
-        // Send to Apps Script
+        // Send to Google Apps Script
         // ---------------------------------------------
 
         const response =
@@ -1326,18 +1453,35 @@ h1 {
               body:
                 JSON.stringify({
 
-                  action: "addItem",
+                  action:
+                    "addItem",
 
-                  id: id,
+                  id:
+                    id,
 
-                  name: name,
+                  name:
+                    name,
 
-                  type: type
+                  type:
+                    type
 
                 })
 
             }
           );
+
+
+        // ---------------------------------------------
+        // Check HTTP response
+        // ---------------------------------------------
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Could not connect to Google Apps Script."
+          );
+
+        }
 
 
         // ---------------------------------------------
@@ -1355,7 +1499,7 @@ h1 {
 
 
         // ---------------------------------------------
-        // Check response
+        // Check success
         // ---------------------------------------------
 
         if (!result.success) {
@@ -1369,18 +1513,23 @@ h1 {
 
 
         // ---------------------------------------------
-        // IMPORTANT
-        // ---------------------------------------------
-        // Apps Script returns the updated item list.
-        // Replace our local list with it.
+        // Replace local items with returned list
         // ---------------------------------------------
 
         allItems =
-          result.items || [];
+          (result.items || []).map(item => {
+
+            return [
+              String(item[0]),
+              String(item[1]),
+              String(item[2]).toLowerCase()
+            ];
+
+          });
 
 
         // ---------------------------------------------
-        // Rebuild the counter interface
+        // Rebuild interface
         // ---------------------------------------------
 
         initializeItems();
@@ -1460,12 +1609,6 @@ h1 {
   // =====================================================
   // SAVE AS IMAGE
   // =====================================================
-
-  const saveButton =
-    document.getElementById(
-      "saveButton"
-    );
-
 
   saveButton.addEventListener(
     "click",
@@ -1595,18 +1738,18 @@ h1 {
     // ITEM COUNTS
     // =================================================
 
-    const itemCounts =
-      {};
+    const itemCounts = {};
 
 
+    // -----------------------------------------------
     // Start every item at 0
+    // -----------------------------------------------
 
     allItems.forEach(
       item => {
 
         const id =
-          item[0];
-
+          String(item[0]);
 
         itemCounts[id] =
           0;
@@ -1616,7 +1759,7 @@ h1 {
 
 
     // -----------------------------------------------
-    // Read displayed counters
+    // Read visible counters
     // -----------------------------------------------
 
     document
@@ -1627,7 +1770,9 @@ h1 {
         item => {
 
           const id =
-            item.dataset.itemId;
+            String(
+              item.dataset.itemId
+            );
 
 
           const countElement =
@@ -1755,11 +1900,10 @@ h1 {
       item => {
 
         const id =
-          item[0];
-
+          String(item[0]);
 
         const name =
-          item[1];
+          String(item[1]);
 
 
         itemNames[id] =
@@ -1777,12 +1921,6 @@ h1 {
   // =====================================================
   // SAVE TO GOOGLE SHEET
   // =====================================================
-
-  const saveRecordButton =
-    document.getElementById(
-      "saveRecordButton"
-    );
-
 
   saveRecordButton.addEventListener(
     "click",
@@ -1834,6 +1972,19 @@ h1 {
 
             }
           );
+
+
+        // ---------------------------------------------
+        // Check HTTP response
+        // ---------------------------------------------
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Could not connect to Google Apps Script."
+          );
+
+        }
 
 
         // ---------------------------------------------
@@ -1924,11 +2075,11 @@ h1 {
   // =====================================================
   // START APPLICATION
   // =====================================================
-  //
-  // IMPORTANT:
-  // This is at the very bottom so all functions and
-  // variables are ready before products are loaded.
-  // =====================================================
+
+  /*
+    IMPORTANT:
+    loadItems() is called ONLY ONCE here.
+  */
 
   loadItems();
 
