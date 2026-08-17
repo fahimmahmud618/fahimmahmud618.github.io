@@ -1,2159 +1,563 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+ <body>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Item Counter</title>
-
-  <!-- html2canvas for saving the counter as an image -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Inter, Arial, sans-serif;
-  background: #f4f5f7;
-  color: #171717;
-  padding: 24px 14px;
-}
-
-.container {
-  max-width: 480px;
-  margin: auto;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-}
-
-h1 {
-  font-size: 22px;
-  font-weight: 650;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-.date-section {
-  margin-bottom: 18px;
-}
-
-.date-section label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #666;
-  margin-bottom: 6px;
-}
+  <!-- =====================================================
+       MAIN PAGE
+  ====================================================== -->
 
-.date-section input {
-  width: 100%;
-  height: 42px;
-  padding: 0 12px;
-  font-size: 14px;
-  color: #222;
-  background: #f8f8f8;
-  border: 1px solid #e5e5e5;
-  border-radius: 9px;
-  outline: none;
-}
+  <div id="mainPage">
 
-.date-section input:focus {
-  border-color: #999;
-}
+    <!-- Everything inside #result is saved as an image -->
 
+    <div class="container" id="result">
 
-/* =========================
-   COUNTER LIST
-========================= */
+      <h1>Mehwish Product Counter</h1>
 
-.counter-list {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
 
+      <!-- =========================
+           DATE
+      ========================== -->
 
-/* Individual item */
+      <div class="date-section">
 
-.counter-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+        <label for="datePicker">
+          Date
+        </label>
 
-  min-height: 48px;
+        <input
+          type="date"
+          id="datePicker"
+        >
 
-  padding: 6px 8px 6px 13px;
+      </div>
 
-  background: #fafafa;
-  border: 1px solid #eeeeee;
-  border-radius: 10px;
-}
 
+      <!-- =========================
+           COUNTERS
+      ========================== -->
 
-/* Item name */
+      <div class="counter-layout">
 
-.item-name {
-  font-size: 14px;
-  font-weight: 500;
+        <!-- ITEM COUNTER -->
 
-  /* Prevent very long names from stretching the row */
-  max-width: 55%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+        <div class="item-counter-section">
 
+          <div
+            id="counterList"
+            class="counter-list"
+          ></div>
 
-/* =========================
-   CONTROLS
-========================= */
+        </div>
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
 
+        <!-- PACKAGING COUNTER -->
 
-/* Buttons */
+        <div class="packaging-section">
 
-.controls button {
-  width: 32px;
-  height: 32px;
+          <div class="packaging-title">
+            Packaging
+          </div>
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+          <div class="packaging-list">
 
-  border: 0;
-  border-radius: 8px;
 
-  font-size: 18px;
-  line-height: 1;
+            <!-- S -->
 
-  cursor: pointer;
+            <div class="packaging-item">
 
-  transition:
-    background 0.15s ease,
-    transform 0.1s ease;
-}
+              <span>S</span>
 
+              <div class="packaging-controls">
 
-/* Minus */
+                <button
+                  type="button"
+                  class="pack-minus"
+                >
+                  −
+                </button>
 
-.minus {
-  background: #f0f0f0;
-  color: #555;
-}
+                <strong class="pack-count">
+                  0
+                </strong>
 
-.minus:hover {
-  background: #e5e5e5;
-}
+                <button
+                  type="button"
+                  class="pack-plus"
+                >
+                  +
+                </button>
 
+              </div>
 
-/* Plus */
+            </div>
 
-.plus {
-  background: #171717;
-  color: #ffffff;
-}
 
-.plus:hover {
-  background: #333;
-}
+            <!-- M -->
 
+            <div class="packaging-item">
 
-/* Click effect */
+              <span>M</span>
 
-.controls button:active {
-  transform: scale(0.94);
-}
+              <div class="packaging-controls">
 
+                <button
+                  type="button"
+                  class="pack-minus"
+                >
+                  −
+                </button>
 
-/* Count */
+                <strong class="pack-count">
+                  0
+                </strong>
 
-.count {
-  width: 28px;
+                <button
+                  type="button"
+                  class="pack-plus"
+                >
+                  +
+                </button>
 
-  text-align: center;
+              </div>
 
-  font-size: 14px;
-  font-weight: 600;
-  color: #222;
-}
+            </div>
 
 
-/* =========================
-   ADD ITEM
-========================= */
+            <!-- L -->
 
-.add-section {
-  margin-top: 18px;
-  padding-top: 16px;
+            <div class="packaging-item">
 
-  border-top: 1px solid #eeeeee;
-}
+              <span>L</span>
 
-.add-section label {
-  display: block;
+              <div class="packaging-controls">
 
-  font-size: 13px;
-  font-weight: 600;
-  color: #666;
+                <button
+                  type="button"
+                  class="pack-minus"
+                >
+                  −
+                </button>
 
-  margin-bottom: 6px;
-}
+                <strong class="pack-count">
+                  0
+                </strong>
 
-.add-section select {
-  width: 100%;
-  height: 42px;
+                <button
+                  type="button"
+                  class="pack-plus"
+                >
+                  +
+                </button>
 
-  padding: 0 12px;
+              </div>
 
-  font-size: 14px;
+            </div>
 
-  color: #333;
-  background: #fafafa;
 
-  border: 1px solid #e5e5e5;
-  border-radius: 9px;
+            <!-- XL -->
 
-  outline: none;
-  cursor: pointer;
-}
+            <div class="packaging-item">
 
-.add-section select:focus {
-  border-color: #999;
-}
+              <span>XL</span>
 
+              <div class="packaging-controls">
 
-/* =========================
-   SAVE BUTTON
-========================= */
+                <button
+                  type="button"
+                  class="pack-minus"
+                >
+                  −
+                </button>
 
-.save-section {
-  max-width: 480px;
-  margin: 12px auto 0;
-}
+                <strong class="pack-count">
+                  0
+                </strong>
 
-.save-button {
-  width: 100%;
-  height: 44px;
+                <button
+                  type="button"
+                  class="pack-plus"
+                >
+                  +
+                </button>
 
-  border: none;
-  border-radius: 10px;
+              </div>
 
-  background: #171717;
-  color: white;
+            </div>
 
-  font-size: 14px;
-  font-weight: 600;
 
-  cursor: pointer;
+          </div>
 
-  transition: background 0.15s ease;
-}
+        </div>
 
-.save-button:hover {
-  background: #333;
-}
+      </div>
 
-.save-button:active {
-  transform: scale(0.99);
-}
 
-.save-button:disabled {
-  background: #aaa;
-  cursor: wait;
-}
+      <!-- =========================
+           ADD UNPOPULAR ITEM
+      ========================== -->
 
-/* ========================= COUNTER LAYOUT ========================= */ 
-.counter-layout {
-  display: grid;
-  grid-template-columns: 7fr 3fr;
-  gap: 10px;
-  align-items: start;
-}
+      <div
+        class="add-section"
+        id="addSection"
+      >
 
-/* ========================= PACKAGING ========================= */ .packaging-section { background: #fafafa; border: 1px solid #eeeeee; border-radius: 10px; padding: 10px; } .packaging-title { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; } .packaging-list { display: flex; flex-direction: column; gap: 6px; } .packaging-item { display: flex; align-items: center; justify-content: space-between; min-height: 36px; padding: 3px 4px 3px 7px; background: #fff; border: 1px solid #eeeeee; border-radius: 7px; } .packaging-item > span { font-size: 13px; font-weight: 600; } .packaging-controls { display: flex; align-items: center; gap: 3px; } .packaging-controls button { width: 24px; height: 24px; border: 0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; } .pack-minus { background: #f0f0f0; color: #555; } .pack-plus { background: #171717; color: white; } .pack-count { width: 20px; text-align: center; font-size: 12px; } /* Small phone adjustment */ 
-@media (max-width: 380px) {
-  .counter-layout {
-    grid-template-columns: 7fr 3fr;
-    gap: 7px;
-  }
+        <label for="itemSelect">
+          Add another item
+        </label>
 
-  .packaging-section {
-    padding: 7px;
-  }
+        <select id="itemSelect">
 
-  .packaging-controls {
-    gap: 2px;
-  }
+          <option value="">
+            Select an item...
+          </option>
 
-  .packaging-controls button {
-    width: 21px;
-    height: 21px;
-    font-size: 13px;
-  }
+        </select>
 
-  .pack-count {
-    width: 17px;
-    font-size: 11px;
-  }
-}
+      </div>
 
 
-/* =========================
-   COMMENT / ADDITIONAL ITEM
-========================= */
+      <!-- =========================
+           COMMENT
+      ========================== -->
 
-.comment-section {
-  margin-top: 14px;
-}
+      <div class="comment-section">
 
-.comment-section label {
-  display: block;
+        <label for="comment">
+          Comment / Additional Item
+        </label>
 
-  font-size: 13px;
-  font-weight: 600;
+        <textarea
+          id="comment"
+          placeholder="Write a comment or add another item..."
+          rows="3"
+        ></textarea>
 
-  color: #666;
+      </div>
 
-  margin-bottom: 6px;
-}
 
-.comment-section textarea {
-  width: 100%;
+    </div>
 
-  min-height: 70px;
 
-  padding: 10px 12px;
+    <!-- =================================================
+         SAVE AS IMAGE
+    ================================================== -->
 
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.4;
+    <div class="save-section">
 
-  color: #222;
-  background: #fafafa;
+      <button
+        type="button"
+        class="save-button"
+        id="saveButton"
+      >
+        📷 Save as Image
+      </button>
 
-  border: 1px solid #e5e5e5;
-  border-radius: 9px;
+    </div>
 
-  outline: none;
 
-  resize: vertical;
+    <!-- =================================================
+         SAVE TO RECORD
+    ================================================== -->
 
-  transition: border-color 0.15s ease;
-}
+    <div class="save-section">
 
-.comment-section textarea:focus {
-  border-color: #999;
-}
+      <button
+        type="button"
+        class="save-button"
+        id="saveRecordButton"
+      >
+        💾 Save to Record
+      </button>
 
-.comment-section textarea::placeholder {
-  color: #aaa;
-}
+    </div>
 
-#saveRecordButton {
-  background: #2563eb;
-}
 
-#saveRecordButton:hover {
-  background: #1d4ed8;
-}
+    <!-- =================================================
+         ADD NEW PRODUCT
+    ================================================== -->
 
+    <div class="new-item-section">
 
-.new-item-section {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid #eeeeee;
-}
+      <h3>
+        Add New Product
+      </h3>
 
-.new-item-section h3 {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.new-item-section input,
-.new-item-section select {
-  width: 100%;
-  height: 42px;
-  margin-bottom: 7px;
-
-  padding: 0 12px;
-
-  font-size: 14px;
-
-  background: #fafafa;
-
-  border: 1px solid #e5e5e5;
-  border-radius: 9px;
-
-  outline: none;
-}
-
-.new-item-section button {
-  width: 100%;
-  height: 42px;
-
-  border: none;
-  border-radius: 9px;
-
-  background: #16a34a;
-  color: white;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.new-item-section button:hover {
-  background: #15803d;
-}
-
-.new-item-section button:disabled {
-  background: #aaa;
-  cursor: wait;
-}
-
-/* =========================
-   VIEW GOOGLE SHEET BUTTON
-========================= */
-
-.sheet-section {
-  max-width: 480px;
-  margin: 12px auto 24px;
-}
-
-.sheet-button {
-  width: 100%;
-  height: 44px;
-
-  border: none;
-  border-radius: 10px;
-
-  background: #16a34a;
-  color: white;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: background 0.15s ease;
-}
-
-.sheet-button:hover {
-  background: #15803d;
-}
-
-.sheet-button:active {
-  transform: scale(0.99);
-}
-  </style>
-</head>
-
-<body>
-
-  <!-- Everything inside this container will be saved as an image -->
-  <div class="container" id="result">
-
-    <h1>Mehwish Product Counter</h1>
-
-    <!-- DATE -->
-    <div class="date-section">
-      <label for="datePicker">Date</label>
 
       <input
-        type="date"
-        id="datePicker"
+        type="text"
+        id="newItemId"
+        placeholder="Item ID e.g. 0025"
       >
-    </div>
 
 
-    <!-- COUNTERS -->
-    <div class="counter-layout">
-
-      <!-- ITEM COUNTER -->
-      <div class="item-counter-section">
-
-        <div
-          id="counterList"
-          class="counter-list"
-        ></div>
-
-      </div>
+      <input
+        type="text"
+        id="newItemName"
+        placeholder="Item name e.g. New Product"
+      >
 
 
-      <!-- PACKAGING COUNTER -->
-      <div class="packaging-section">
+      <select id="newItemType">
 
-        <div class="packaging-title">
-          Packaging
-        </div>
+        <option value="p">
+          Popular
+        </option>
 
-        <div class="packaging-list">
-
-          <div class="packaging-item">
-            <span>S</span>
-
-            <div class="packaging-controls">
-              <button class="pack-minus">−</button>
-              <strong class="pack-count">0</strong>
-              <button class="pack-plus">+</button>
-            </div>
-          </div>
-
-
-          <div class="packaging-item">
-            <span>M</span>
-
-            <div class="packaging-controls">
-              <button class="pack-minus">−</button>
-              <strong class="pack-count">0</strong>
-              <button class="pack-plus">+</button>
-            </div>
-          </div>
-
-
-          <div class="packaging-item">
-            <span>L</span>
-
-            <div class="packaging-controls">
-              <button class="pack-minus">−</button>
-              <strong class="pack-count">0</strong>
-              <button class="pack-plus">+</button>
-            </div>
-          </div>
-
-
-          <div class="packaging-item">
-            <span>XL</span>
-
-            <div class="packaging-controls">
-              <button class="pack-minus">−</button>
-              <strong class="pack-count">0</strong>
-              <button class="pack-plus">+</button>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ADD UNPOPULAR ITEM -->
-    <div
-      class="add-section"
-      id="addSection"
-    >
-
-      <label for="itemSelect">
-        Add another item
-      </label>
-
-      <select id="itemSelect">
-
-        <option value="">
-          Select an item...
+        <option value="u">
+          Unpopular
         </option>
 
       </select>
 
+
+      <button
+        type="button"
+        id="addNewItemButton"
+      >
+        ＋ Add New Item
+      </button>
+
     </div>
 
-    <!-- COMMENT / ADDITIONAL ITEM -->
 
-<div class="comment-section">
+    <!-- =================================================
+         VIEW GOOGLE SHEET
+    ================================================== -->
 
-  <label for="comment">
-    Comment / Additional Item
-  </label>
+    <div class="sheet-section">
 
-  <textarea
-    id="comment"
-    placeholder="Write a comment or add another item..."
-    rows="3"
-  ></textarea>
+      <button
+        type="button"
+        class="sheet-button"
+        id="viewSheetButton"
+      >
+        📊 View Current Database
+      </button>
 
-</div>
+    </div>
+
+
+    <!-- =================================================
+         ADD TO STOCK
+    ================================================== -->
+
+    <div class="sheet-section">
+
+      <button
+        type="button"
+        class="sheet-button"
+        id="addToStockButton"
+      >
+        📦 ADD to Stock
+      </button>
+
+    </div>
+
+    <!-- ================================
+        SEE STOCK UPDATE
+    ================================ -->
+
+    <div class="sheet-section">
+
+    <button
+        type="button"
+        class="sheet-button"
+        id="seeStockButton"
+    >
+        📦 SEE STOCK UPDATE
+    </button>
+
+    </div>
 
 
   </div>
 
-  
+
+  <!-- =====================================================
+       ADD TO STOCK PAGE
+  ====================================================== -->
+
+  <!-- =====================================================
+     ADD TO STOCK PAGE
+===================================================== -->
+
+<div
+  id="stockPage"
+  class="stock-page"
+  style="display: none;"
+>
+
+  <h1>Add to Stock</h1>
 
 
+  <!-- DATE -->
+
+  <div class="date-section">
+
+    <label for="stockDate">
+      Date
+    </label>
+
+    <input
+      type="date"
+      id="stockDate"
+    >
+
+  </div>
 
 
-  <!-- SAVE BUTTON -->
-  <!-- Outside #result, so it won't appear in the image -->
+  <!-- =================================================
+       PRODUCT STOCK
+  ================================================== -->
 
-  <div class="save-section">
+  <div class="stock-section">
+
+    <div class="stock-section-title">
+      Products
+    </div>
+
+
+    <div
+      id="stockList"
+      class="stock-list"
+    ></div>
+
+  </div>
+
+
+  <!-- =================================================
+       PACKAGING STOCK
+  ================================================== -->
+
+  <div class="stock-packaging-section">
+
+    <div class="stock-section-title">
+      Packaging
+    </div>
+
+
+    <div class="stock-packaging-list">
+
+
+      <!-- S -->
+
+      <div class="stock-packaging-item">
+
+        <span>S</span>
+
+        <input
+          type="number"
+          class="stock-packaging-input"
+          data-packaging="S"
+          min="0"
+          step="1"
+          inputmode="numeric"
+          placeholder="0"
+        >
+
+      </div>
+
+
+      <!-- M -->
+
+      <div class="stock-packaging-item">
+
+        <span>M</span>
+
+        <input
+          type="number"
+          class="stock-packaging-input"
+          data-packaging="M"
+          min="0"
+          step="1"
+          inputmode="numeric"
+          placeholder="0"
+        >
+
+      </div>
+
+
+      <!-- L -->
+
+      <div class="stock-packaging-item">
+
+        <span>L</span>
+
+        <input
+          type="number"
+          class="stock-packaging-input"
+          data-packaging="L"
+          min="0"
+          step="1"
+          inputmode="numeric"
+          placeholder="0"
+        >
+
+      </div>
+
+
+      <!-- XL -->
+
+      <div class="stock-packaging-item">
+
+        <span>XL</span>
+
+        <input
+          type="number"
+          class="stock-packaging-input"
+          data-packaging="XL"
+          min="0"
+          step="1"
+          inputmode="numeric"
+          placeholder="0"
+        >
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       SAVE STOCK
+  ================================================== -->
+
+  <div class="stock-button-section">
 
     <button
-      class="save-button"
-      id="saveButton"
+      type="button"
+      id="saveStockButton"
+      class="stock-save-button"
     >
-      📷 Save as Image
+      💾 Save Stock
     </button>
 
   </div>
 
-  <div class="save-section">
 
-  <button
-    class="save-button"
-    id="saveRecordButton"
-  >
-    💾 Save to Record
-  </button>
+  <!-- =================================================
+       BACK
+  ================================================== -->
 
-</div>
+  <div class="stock-button-section">
 
+    <button
+      type="button"
+      id="backToCounterButton"
+      class="stock-back-button"
+    >
+      ← Back to Counter
+    </button>
 
-<div class="new-item-section">
-
-  <h3>Add New Product</h3>
-
-  <input
-    type="text"
-    id="newItemId"
-    placeholder="Item ID e.g. 0025"
-  >
-
-  <input
-    type="text"
-    id="newItemName"
-    placeholder="Item name e.g. New Product"
-  >
-
-  <select id="newItemType">
-
-    <option value="p">
-      Popular
-    </option>
-
-    <option value="u">
-      Unpopular
-    </option>
-
-  </select>
-
-  <button
-    type="button"
-    id="addNewItemButton"
-  >
-    ＋ Add New Item
-  </button>
+  </div>
 
 </div>
 
-<!-- VIEW GOOGLE SHEET -->
-
-<div class="sheet-section">
-
-  <button
-    type="button"
-    class="sheet-button"
-    id="viewSheetButton"
-  >
-    📊 View Current Database
-  </button>
-
-</div>
-
-
-<script>
-
-  // =====================================================
-// VIEW GOOGLE SHEET
-// =====================================================
-
-viewSheetButton.addEventListener(
-  "click",
-  () => {
-
-    window.open(
-      GOOGLE_SHEET_URL,
-      "_blank"
-    );
-
-  }
-);
-
-  // =====================================================
-  // GOOGLE APPS SCRIPT URL
-  // =====================================================
-
-  const GOOGLE_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycby8CZsCoIz7HnBEHI9KY041aXL0qyHf_dV2ZFVnrGYJwfRIsEzIfi__g3wOV9_AOZHY/exec";
-
-const GOOGLE_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/1d1RkMpH3KcjDhAMWpJMA6W813hUYN-yosiUP2nUTMek/edit";
-
-  // =====================================================
-  // DOM ELEMENTS
-  // =====================================================
-
-  const datePicker =
-    document.getElementById("datePicker");
-
-  const counterList =
-    document.getElementById("counterList");
-
-  const itemSelect =
-    document.getElementById("itemSelect");
-
-  const saveButton =
-    document.getElementById("saveButton");
-
-  const saveRecordButton =
-    document.getElementById("saveRecordButton");
-
-  const addNewItemButton =
-    document.getElementById("addNewItemButton");
-
-  const newItemId =
-    document.getElementById("newItemId");
-
-  const newItemName =
-    document.getElementById("newItemName");
-
-  const newItemType =
-    document.getElementById("newItemType");
-
-
-  // =====================================================
-  // DATE
-  // =====================================================
-
-  const today =
-    new Date().toISOString().split("T")[0];
-
-  datePicker.value = today;
-
-
-  // =====================================================
-  // ALL ITEMS
-  // =====================================================
-
-  /*
-    Format:
-
-    [
-      [ID, Name, Type],
-      [ID, Name, Type]
-    ]
-
-    Type:
-      p = Popular
-      u = Unpopular
-  */
-
-  let allItems = [];
-
-
-  // =====================================================
-  // ACTIVE ITEMS
-  // =====================================================
-
-  /*
-    IDs currently visible in the counter list.
-  */
-
-  let activeItems = new Set();
-
-
-  // =====================================================
-  // LOAD ITEMS
-  // =====================================================
-
-  async function loadItems() {
-
-    try {
-
-      console.log("Loading products...");
-
-      const response =
-        await fetch(
-          GOOGLE_SCRIPT_URL +
-          "?action=getItems"
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "Could not connect to Google Apps Script."
-        );
-
-      }
-
-
-      const result =
-        await response.json();
-
-
-      console.log(
-        "Google Apps Script response:",
-        result
-      );
-
-
-      if (!result.success) {
-
-        throw new Error(
-          result.message ||
-          "Could not load items."
-        );
-
-      }
-
-
-      // -----------------------------------------------
-      // Normalize items
-      // -----------------------------------------------
-
-      allItems =
-        (result.items || []).map(item => {
-
-          return [
-            String(item[0]),
-            String(item[1]),
-            String(item[2]).toLowerCase()
-          ];
-
-        });
-
-
-      console.log(
-        "Items loaded:",
-        allItems
-      );
-
-
-      // -----------------------------------------------
-      // Build interface
-      // -----------------------------------------------
-
-      initializeItems();
-
-
-    } catch (error) {
-
-      console.error(
-        "Could not load items:",
-        error
-      );
-
-
-      alert(
-        "Could not load products from Google Sheet.\n\n" +
-        error.message
-      );
-
-    }
-
-  }
-
-
-  // =====================================================
-  // INITIALIZE ITEMS
-  // =====================================================
-
-  function initializeItems() {
-
-    // -----------------------------------------------
-    // Reset active items
-    // -----------------------------------------------
-
-    activeItems =
-      new Set(
-        allItems
-          .filter(item => item[2] === "p")
-          .map(item => String(item[0]))
-      );
-
-
-    // -----------------------------------------------
-    // Clear counter list
-    // -----------------------------------------------
-
-    counterList.innerHTML = "";
-
-
-    // -----------------------------------------------
-    // Show popular items
-    // -----------------------------------------------
-
-    allItems
-      .filter(item => item[2] === "p")
-      .forEach(item => {
-
-        createCounterItem(item);
-
-      });
-
-
-    // -----------------------------------------------
-    // Update dropdown
-    // -----------------------------------------------
-
-    updateDropdown();
-
-  }
-
-
-  // =====================================================
-  // UPDATE DROPDOWN
-  // =====================================================
-
-  function updateDropdown() {
-
-    itemSelect.innerHTML = `
-      <option value="">
-        Select an item...
-      </option>
-    `;
-
-
-    allItems
-      .filter(item => item[2] === "u")
-      .forEach(item => {
-
-        const id =
-          String(item[0]);
-
-        const name =
-          item[1];
-
-
-        // ---------------------------------------------
-        // Only show items not already active
-        // ---------------------------------------------
-
-        if (!activeItems.has(id)) {
-
-          const option =
-            document.createElement("option");
-
-
-          option.value =
-            id;
-
-
-          option.textContent =
-            name;
-
-
-          itemSelect.appendChild(
-            option
-          );
-
-        }
-
-      });
-
-  }
-
-
-  // =====================================================
-  // ADD UNPOPULAR ITEM TO MAIN COUNTER
-  // =====================================================
-
-  itemSelect.addEventListener(
-    "change",
-    () => {
-
-      const selectedId =
-        String(itemSelect.value).trim();
-
-
-      console.log(
-        "Selected item ID:",
-        selectedId
-      );
-
-
-      // ---------------------------------------------
-      // Nothing selected
-      // ---------------------------------------------
-
-      if (!selectedId) {
-
-        return;
-
-      }
-
-
-      // ---------------------------------------------
-      // Find selected item
-      //
-      // IMPORTANT:
-      // Both IDs are converted to String.
-      // This fixes Google Sheet number/string mismatch.
-      // ---------------------------------------------
-
-      const selectedItem =
-        allItems.find(
-          item =>
-            String(item[0]).trim() === selectedId
-        );
-
-
-      console.log(
-        "Selected item:",
-        selectedItem
-      );
-
-
-      // ---------------------------------------------
-      // Item not found
-      // ---------------------------------------------
-
-      if (!selectedItem) {
-
-        console.error(
-          "Could not find selected item:",
-          selectedId,
-          allItems
-        );
-
-        alert(
-          "Could not find the selected item."
-        );
-
-        return;
-
-      }
-
-
-      // ---------------------------------------------
-      // Prevent duplicate
-      // ---------------------------------------------
-
-      if (activeItems.has(selectedId)) {
-
-        itemSelect.value = "";
-
-        return;
-
-      }
-
-
-      // ---------------------------------------------
-      // Add to active items
-      // ---------------------------------------------
-
-      activeItems.add(
-        selectedId
-      );
-
-
-      // ---------------------------------------------
-      // Add item to main list
-      // ---------------------------------------------
-
-      createCounterItem(
-        selectedItem
-      );
-
-
-      // ---------------------------------------------
-      // Refresh dropdown
-      // ---------------------------------------------
-
-      updateDropdown();
-
-
-      // Reset select
-      itemSelect.value = "";
-
-    }
-  );
-
-
-  // =====================================================
-  // CREATE COUNTER ITEM
-  // =====================================================
-
-  function createCounterItem(item) {
-
-    const id =
-      String(item[0]);
-
-    const name =
-      String(item[1]);
-
-    const type =
-      String(item[2]);
-
-
-    // -----------------------------------------------
-    // Prevent duplicate visual item
-    // -----------------------------------------------
-
-    const existing =
-      counterList.querySelector(
-        `.counter-item[data-item-id="${CSS.escape(id)}"]`
-      );
-
-
-    if (existing) {
-
-      return;
-
-    }
-
-
-    // -----------------------------------------------
-    // Create element
-    // -----------------------------------------------
-
-    const counterItem =
-      document.createElement("div");
-
-
-    counterItem.className =
-      "counter-item";
-
-
-    counterItem.dataset.itemId =
-      id;
-
-
-    counterItem.innerHTML = `
-      <span class="item-name">
-        ${escapeHtml(name)}
-      </span>
-
-      <div class="controls">
-
-        <button
-          type="button"
-          class="minus"
-        >
-          −
-        </button>
-
-        <span class="count">
-          0
-        </span>
-
-        <button
-          type="button"
-          class="plus"
-        >
-          +
-        </button>
-
-      </div>
-    `;
-
-
-    // -----------------------------------------------
-    // Get controls
-    // -----------------------------------------------
-
-    const minusButton =
-      counterItem.querySelector(
-        ".minus"
-      );
-
-
-    const plusButton =
-      counterItem.querySelector(
-        ".plus"
-      );
-
-
-    const countElement =
-      counterItem.querySelector(
-        ".count"
-      );
-
-
-    // -----------------------------------------------
-    // PLUS
-    // -----------------------------------------------
-
-    plusButton.addEventListener(
-      "click",
-      () => {
-
-        let count =
-          Number(
-            countElement.textContent
-          );
-
-
-        count++;
-
-
-        countElement.textContent =
-          count;
-
-      }
-    );
-
-
-    // -----------------------------------------------
-    // MINUS
-    // -----------------------------------------------
-
-    minusButton.addEventListener(
-      "click",
-      () => {
-
-        let count =
-          Number(
-            countElement.textContent
-          );
-
-
-        if (count > 0) {
-
-          count--;
-
-        }
-
-
-        countElement.textContent =
-          count;
-
-      }
-    );
-
-
-    // -----------------------------------------------
-    // Add to main list
-    // -----------------------------------------------
-
-    counterList.appendChild(
-      counterItem
-    );
-
-
-    console.log(
-      "Counter item added:",
-      id,
-      name
-    );
-
-  }
-
-
-  // =====================================================
-  // HTML ESCAPE
-  // =====================================================
-
-  function escapeHtml(value) {
-
-    return String(value)
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-  }
-
-
-  // =====================================================
-  // PACKAGING COUNTER
-  // =====================================================
-
-  const packagingItems =
-    document.querySelectorAll(
-      ".packaging-item"
-    );
-
-
-  packagingItems.forEach(
-    item => {
-
-      const minusButton =
-        item.querySelector(
-          ".pack-minus"
-        );
-
-
-      const plusButton =
-        item.querySelector(
-          ".pack-plus"
-        );
-
-
-      const countElement =
-        item.querySelector(
-          ".pack-count"
-        );
-
-
-      // -----------------------------------------------
-      // PLUS
-      // -----------------------------------------------
-
-      plusButton.addEventListener(
-        "click",
-        () => {
-
-          let count =
-            Number(
-              countElement.textContent
-            );
-
-
-          count++;
-
-
-          countElement.textContent =
-            count;
-
-        }
-      );
-
-
-      // -----------------------------------------------
-      // MINUS
-      // -----------------------------------------------
-
-      minusButton.addEventListener(
-        "click",
-        () => {
-
-          let count =
-            Number(
-              countElement.textContent
-            );
-
-
-          if (count > 0) {
-
-            count--;
-
-          }
-
-
-          countElement.textContent =
-            count;
-
-        }
-      );
-
-    }
-  );
-
-
-  // =====================================================
-  // ADD NEW ITEM
-  // =====================================================
-
-  addNewItemButton.addEventListener(
-    "click",
-    async () => {
-
-      const id =
-        newItemId.value.trim();
-
-      const name =
-        newItemName.value.trim();
-
-      const type =
-        newItemType.value;
-
-
-      // -----------------------------------------------
-      // Validate ID
-      // -----------------------------------------------
-
-      if (!id) {
-
-        alert(
-          "Please enter an Item ID."
-        );
-
-        newItemId.focus();
-
-        return;
-
-      }
-
-
-      // -----------------------------------------------
-      // Validate name
-      // -----------------------------------------------
-
-      if (!name) {
-
-        alert(
-          "Please enter an Item Name."
-        );
-
-        newItemName.focus();
-
-        return;
-
-      }
-
-
-      // -----------------------------------------------
-      // Validate type
-      // -----------------------------------------------
-
-      if (
-        type !== "p" &&
-        type !== "u"
-      ) {
-
-        alert(
-          "Please select an item type."
-        );
-
-        return;
-
-      }
-
-
-      // -----------------------------------------------
-      // Check duplicate ID
-      // -----------------------------------------------
-
-      const existingId =
-        allItems.some(
-          item =>
-            String(item[0]).trim() === id
-        );
-
-
-      if (existingId) {
-
-        alert(
-          "This Item ID already exists."
-        );
-
-        return;
-
-      }
-
-
-      // -----------------------------------------------
-      // Check duplicate name
-      // -----------------------------------------------
-
-      const existingName =
-        allItems.some(
-          item =>
-            String(item[1])
-              .trim()
-              .toLowerCase() ===
-            name.toLowerCase()
-        );
-
-
-      if (existingName) {
-
-        alert(
-          "This item name already exists."
-        );
-
-        return;
-
-      }
-
-
-      // -----------------------------------------------
-      // Disable button
-      // -----------------------------------------------
-
-      addNewItemButton.disabled =
-        true;
-
-      addNewItemButton.textContent =
-        "Adding...";
-
-
-      try {
-
-        // ---------------------------------------------
-        // Send to Google Apps Script
-        // ---------------------------------------------
-
-        const response =
-          await fetch(
-            GOOGLE_SCRIPT_URL,
-            {
-              method: "POST",
-
-              body:
-                JSON.stringify({
-
-                  action:
-                    "addItem",
-
-                  id:
-                    id,
-
-                  name:
-                    name,
-
-                  type:
-                    type
-
-                })
-
-            }
-          );
-
-
-        // ---------------------------------------------
-        // Check HTTP response
-        // ---------------------------------------------
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Could not connect to Google Apps Script."
-          );
-
-        }
-
-
-        // ---------------------------------------------
-        // Read response
-        // ---------------------------------------------
-
-        const result =
-          await response.json();
-
-
-        console.log(
-          "Add item response:",
-          result
-        );
-
-
-        // ---------------------------------------------
-        // Check success
-        // ---------------------------------------------
-
-        if (!result.success) {
-
-          throw new Error(
-            result.message ||
-            "Could not add item."
-          );
-
-        }
-
-
-        // ---------------------------------------------
-        // Replace local items with returned list
-        // ---------------------------------------------
-
-        allItems =
-          (result.items || []).map(item => {
-
-            return [
-              String(item[0]),
-              String(item[1]),
-              String(item[2]).toLowerCase()
-            ];
-
-          });
-
-
-        // ---------------------------------------------
-        // Rebuild interface
-        // ---------------------------------------------
-
-        initializeItems();
-
-
-        // ---------------------------------------------
-        // Clear form
-        // ---------------------------------------------
-
-        newItemId.value =
-          "";
-
-        newItemName.value =
-          "";
-
-        newItemType.value =
-          "u";
-
-
-        // ---------------------------------------------
-        // Success
-        // ---------------------------------------------
-
-        addNewItemButton.textContent =
-          "✓ Item Added";
-
-
-        setTimeout(
-          () => {
-
-            addNewItemButton.textContent =
-              "＋ Add New Item";
-
-          },
-          2000
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Add item error:",
-          error
-        );
-
-
-        alert(
-          "Could not add item.\n\n" +
-          error.message
-        );
-
-
-        addNewItemButton.textContent =
-          "❌ Failed";
-
-
-        setTimeout(
-          () => {
-
-            addNewItemButton.textContent =
-              "＋ Add New Item";
-
-          },
-          2000
-        );
-
-      }
-
-
-      addNewItemButton.disabled =
-        false;
-
-    }
-  );
-
-
-  // =====================================================
-  // SAVE AS IMAGE
-  // =====================================================
-
-  saveButton.addEventListener(
-    "click",
-    async () => {
-
-      saveButton.disabled =
-        true;
-
-
-      saveButton.textContent =
-        "Creating image...";
-
-
-      try {
-
-        const result =
-          document.getElementById(
-            "result"
-          );
-
-
-        const canvas =
-          await html2canvas(
-            result,
-            {
-
-              backgroundColor:
-                "#ffffff",
-
-              scale:
-                2,
-
-              width:
-                result.scrollWidth,
-
-              height:
-                result.scrollHeight
-
-            }
-          );
-
-
-        const image =
-          canvas.toDataURL(
-            "image/png"
-          );
-
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-
-        link.download =
-          `counter-${datePicker.value}.png`;
-
-
-        link.href =
-          image;
-
-
-        link.click();
-
-
-      } catch (error) {
-
-        console.error(
-          "Image error:",
-          error
-        );
-
-
-        alert(
-          "Could not create the image."
-        );
-
-      }
-
-
-      saveButton.disabled =
-        false;
-
-
-      saveButton.textContent =
-        "📷 Save as Image";
-
-    }
-  );
-
-
-  // =====================================================
-  // GET CURRENT RECORD
-  // =====================================================
-
-  function getCurrentRecord() {
-
-    const selectedDate =
-      datePicker.value;
-
-
-    const now =
-      new Date();
-
-
-    const time =
-      now.toLocaleTimeString(
-        "en-GB",
-        {
-          hour:
-            "2-digit",
-
-          minute:
-            "2-digit",
-
-          second:
-            "2-digit"
-        }
-      );
-
-
-    const timestamp =
-      `${selectedDate} ${time}`;
-
-
-    // =================================================
-    // ITEM COUNTS
-    // =================================================
-
-    const itemCounts = {};
-
-
-    // -----------------------------------------------
-    // Start every item at 0
-    // -----------------------------------------------
-
-    allItems.forEach(
-      item => {
-
-        const id =
-          String(item[0]);
-
-        itemCounts[id] =
-          0;
-
-      }
-    );
-
-
-    // -----------------------------------------------
-    // Read visible counters
-    // -----------------------------------------------
-
-    document
-      .querySelectorAll(
-        ".counter-item"
-      )
-      .forEach(
-        item => {
-
-          const id =
-            String(
-              item.dataset.itemId
-            );
-
-
-          const countElement =
-            item.querySelector(
-              ".count"
-            );
-
-
-          if (
-            id &&
-            countElement
-          ) {
-
-            itemCounts[id] =
-              Number(
-                countElement.textContent
-              );
-
-          }
-
-        }
-      );
-
-
-    // =================================================
-    // PACKAGING COUNTS
-    // =================================================
-
-    const packagingCounts =
-      {};
-
-
-    document
-      .querySelectorAll(
-        ".packaging-item"
-      )
-      .forEach(
-        item => {
-
-          const name =
-            item
-              .querySelector(
-                "span"
-              )
-              .textContent
-              .trim();
-
-
-          const count =
-            Number(
-              item
-                .querySelector(
-                  ".pack-count"
-                )
-                .textContent
-            );
-
-
-          packagingCounts[name] =
-            count;
-
-        }
-      );
-
-
-    // =================================================
-    // COMMENT
-    // =================================================
-
-    const comment =
-      document
-        .getElementById(
-          "comment"
-        )
-        .value
-        .trim();
-
-
-    // =================================================
-    // RETURN RECORD
-    // =================================================
-
-    return {
-
-      action:
-        "saveRecord",
-
-      timestamp:
-        timestamp,
-
-      date:
-        selectedDate,
-
-      time:
-        time,
-
-      itemCounts:
-        itemCounts,
-
-      itemNames:
-        getItemNames(),
-
-      packagingCounts:
-        packagingCounts,
-
-      comment:
-        comment
-
-    };
-
-  }
-
-
-  // =====================================================
-  // GET ITEM NAMES
-  // =====================================================
-
-  function getItemNames() {
-
-    const itemNames =
-      {};
-
-
-    allItems.forEach(
-      item => {
-
-        const id =
-          String(item[0]);
-
-        const name =
-          String(item[1]);
-
-
-        itemNames[id] =
-          name;
-
-      }
-    );
-
-
-    return itemNames;
-
-  }
-
-
-  // =====================================================
-  // SAVE TO GOOGLE SHEET
-  // =====================================================
-
-  saveRecordButton.addEventListener(
-    "click",
-    async () => {
-
-      saveRecordButton.disabled =
-        true;
-
-
-      saveRecordButton.textContent =
-        "Saving...";
-
-
-      try {
-
-        // ---------------------------------------------
-        // Build record
-        // ---------------------------------------------
-
-        const record =
-          getCurrentRecord();
-
-
-        console.log(
-          "Sending record:",
-          record
-        );
-
-
-        // ---------------------------------------------
-        // Send to Apps Script
-        // ---------------------------------------------
-
-        const response =
-          await fetch(
-            GOOGLE_SCRIPT_URL,
-            {
-
-              method:
-                "POST",
-
-              redirect:
-                "follow",
-
-              body:
-                JSON.stringify(
-                  record
-                )
-
-            }
-          );
-
-
-        // ---------------------------------------------
-        // Check HTTP response
-        // ---------------------------------------------
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Could not connect to Google Apps Script."
-          );
-
-        }
-
-
-        // ---------------------------------------------
-        // Read response
-        // ---------------------------------------------
-
-        const result =
-          await response.json();
-
-
-        console.log(
-          "Google response:",
-          result
-        );
-
-
-        // ---------------------------------------------
-        // Check success
-        // ---------------------------------------------
-
-        if (!result.success) {
-
-          throw new Error(
-            result.message ||
-            "Google Sheet rejected the record."
-          );
-
-        }
-
-
-        // ---------------------------------------------
-        // Success
-        // ---------------------------------------------
-
-        saveRecordButton.textContent =
-          "✓ Saved to Google Sheet";
-
-
-        setTimeout(
-          () => {
-
-            saveRecordButton.textContent =
-              "💾 Save to Record";
-
-          },
-          2000
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Save error:",
-          error
-        );
-
-
-        alert(
-          "Could not save the record.\n\n" +
-          error.message
-        );
-
-
-        saveRecordButton.textContent =
-          "❌ Save Failed";
-
-
-        setTimeout(
-          () => {
-
-            saveRecordButton.textContent =
-              "💾 Save to Record";
-
-          },
-          2000
-        );
-
-      }
-
-
-      saveRecordButton.disabled =
-        false;
-
-    }
-  );
-
-
-  // =====================================================
-  // START APPLICATION
-  // =====================================================
-
-  /*
-    IMPORTANT:
-    loadItems() is called ONLY ONCE here.
-  */
-
-  loadItems();
-
-</script>
-
-</body>
-
-
+<script src="script.js"></script>
+</body>   
 </html>
-
