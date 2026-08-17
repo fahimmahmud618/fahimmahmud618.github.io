@@ -2,11 +2,11 @@
 // BUTTON PASSWORDS
 // =====================================================
 
-const SAVE_RECORD_PASSWORD = "1234";
-const ADD_ITEM_PASSWORD = "2345";
-const VIEW_DATABASE_PASSWORD = "3456";
-const ADD_STOCK_PASSWORD = "4567";
-const VIEW_STOCK_PASSWORD = "5678";
+const SAVE_RECORD_PASSWORD = "2608";
+const ADD_ITEM_PASSWORD = "fm618";
+const VIEW_DATABASE_PASSWORD = "supad618";
+const ADD_STOCK_PASSWORD = "fm618";
+const VIEW_STOCK_PASSWORD = "st618";
 
 
 // =====================================================
