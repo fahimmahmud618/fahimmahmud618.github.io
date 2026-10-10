@@ -1,21 +1,134 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DIU</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIU - Course Materials</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-box {
+            max-width: 350px;
+            margin: 100px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background: #006a4e;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #004d38;
+        }
+
+        #error {
+            color: red;
+        }
+
+        #content {
+            display: none;
+            max-width: 600px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        a {
+            color: #006a4e;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Computer Architecture</h1>
+    <div class="login-box" id="login">
+        <h2>DIU Course Materials</h2>
+        <p>Enter the password to continue.</p>
 
-    <a href="https://docs.google.com/spreadsheets/d/1B9HjY0kAvUoQ3_TTFyRmaloYxhdHzo-8Y2JKlcwvfPE/edit?usp=drivesdk">Slides</a>
+        <form onsubmit="checkPassword(event)">
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                required
+            >
+            <button type="submit">Unlock Page</button>
+        </form>
+
+        <p id="error"></p>
+    </div>
+
+    <div id="content">
+        <h1>Computer Architecture</h1>
+        <a href="https://docs.google.com/spreadsheets/d/1B9HjY0kAvUoQ3_TTFyRmaloYxhdHzo-8Y2JKlcwvfPE/edit?usp=drivesdk"
+           target="_blank" rel="noopener noreferrer">
+            Slides
+        </a>
 
         <h1>OS</h1>
+        <a href="https://drive.google.com/drive/folders/1ei77Ib9a9L_vKv_xMbl6BeO2_DqLlwUJ"
+           target="_blank" rel="noopener noreferrer">
+            Slides
+        </a>
 
-    <a href="https://drive.google.com/drive/folders/1ei77Ib9a9L_vKv_xMbl6BeO2_DqLlwUJ">Slides</a>
+        <h1>AI Lab</h1>
+        <a href="https://drive.google.com/drive/folders/1B2pWCpLgsOOmOV1FMhIFeJ4qy0JO8BMf"
+           target="_blank" rel="noopener noreferrer">
+            Slides
+        </a>
 
-    <h1>AI Lab</h1>
+        <button onclick="logout()">Lock Page</button>
+    </div>
 
-    <a href="https://drive.google.com/drive/folders/1B2pWCpLgsOOmOV1FMhIFeJ4qy0JO8BMf">Slides</a>
+    <script>
+        const PASSWORD = "fahim618";
+
+        function checkPassword(event) {
+            event.preventDefault();
+
+            const enteredPassword =
+                document.getElementById("password").value;
+
+            if (enteredPassword === PASSWORD) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("content").style.display = "block";
+                document.getElementById("password").value = "";
+            } else {
+                document.getElementById("error").textContent =
+                    "Incorrect password. Please try again.";
+            }
+        }
+
+        function logout() {
+            document.getElementById("content").style.display = "none";
+            document.getElementById("login").style.display = "block";
+            document.getElementById("error").textContent = "";
+        }
+    </script>
 
 </body>
 </html>
