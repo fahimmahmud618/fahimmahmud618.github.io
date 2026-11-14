@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Boxes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #fafafa;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 12px;
+  }
+
+  /* Six boxes in one horizontal line */
+  .boxes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: clamp(6px, 1.5vw, 16px);
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .box {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(18px, 5vw, 48px);
+    font-weight: 700;
+    border-radius: 14px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    color: #444;
+  }
+
+  /* Alternate colors: light pink, light green */
+  .box:nth-child(odd)  { background: #ffd1dc; }
+  .box:nth-child(even) { background: #c8f2cf; }
+
+  /* Text area shown below the boxes */
+  .message {
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 30px;
+    padding: 20px 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="boxes">
+    <div class="box">1</div>
+    <div class="box">2</div>
+    <div class="box">3</div>
+    <div class="box">4</div>
+    <div class="box">5</div>
+    <div class="box">6</div>
+  </div>
+
+  <!-- Change this text whenever you want -->
+  <div class="message" id="message"></div>
+
+<script>
+  // ✏️ Edit this line to update the text under the boxes
+  const messageText = "Your text will be updated here later.";
+
+  document.getElementById("message").textContent = messageText;
+</script>
+</body>
+</html>
