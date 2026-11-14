@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #fafafa;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* ---------- Password screen ---------- */
+  #lock {
+    background: #fff;
+    padding: 32px 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    text-align: center;
+    width: 100%;
+    max-width: 340px;
+  }
+  #lock h2 { margin-bottom: 16px; }
+  #lock input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    outline: none;
+  }
+  #lock input:focus { border-color: #9ad5a6; }
+  #lock button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background: #c8f2cf;
+    cursor: pointer;
+  }
+  #error { color: #d33; margin-top: 10px; min-height: 1.2em; font-size: 0.95rem; }
+
+  /* ---------- Protected content ---------- */
+  #content {
+    display: none;
+    width: 100%;
+    max-width: 520px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .big-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    border-radius: 18px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #444;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .big-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18); }
+  .pink  { background: #ffd1dc; }
+  .green { background: #c8f2cf; }
+
+  .submit-btn {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    background: #333;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .submit-btn:hover { background: #555; }
+</style>
+</head>
+<body>
+
+  <!-- Password screen -->
+  <div id="lock">
+    <h2>🔒 Enter Password</h2>
+    <input type="password" id="pw" placeholder="Password" autocomplete="off">
+    <button id="unlockBtn">Unlock</button>
+    <div id="error"></div>
+  </div>
+
+  <!-- Protected content -->
+  <div id="content">
+    <!-- 🔗 Replace the two Google Drive links below -->
+    <a class="big-btn pink"  href="PASTE_GOOGLE_DRIVE_LINK_1_HERE" target="_blank" rel="noopener">Google Drive 1</a>
+    <a class="big-btn green" href="PASTE_GOOGLE_DRIVE_LINK_2_HERE" target="_blank" rel="noopener">Google Drive 2</a>
+
+    <a class="submit-btn" href="https://forms.gle/A8HqUforFuLFxd4y6" target="_blank" rel="noopener">Submit Answer</a>
+  </div>
+
+<script>
+  // SHA-256 hash of the password (the password itself is not written in the code)
+  const PASSWORD_HASH = "8b03c6159ef41779c3297ca33fe1d87966c5ec7032682d7214c1966e4fa53f11";
+
+  async function sha256(text) {
+    const data = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  function showContent() {
+    document.getElementById("lock").style.display = "none";
+    document.getElementById("content").style.display = "flex";
+  }
+
+  async function checkPassword() {
+    const value = document.getElementById("pw").value.trim();
+    const hash = await sha256(value);
+    if (hash === PASSWORD_HASH) {
+      try { sessionStorage.setItem("unlocked", "yes"); } catch (e) {}
+      showContent();
+    } else {
+      document.getElementById("error").textContent = "Wrong password. Try again.";
+      document.getElementById("pw").value = "";
+    }
+  }
+
+  document.getElementById("unlockBtn").addEventListener("click", checkPassword);
+  document.getElementById("pw").addEventListener("keydown", e => {
+    if (e.key === "Enter") checkPassword();
+  });
+
+  // Stay unlocked while the tab is open
+  try {
+    if (sessionStorage.getItem("unlocked") === "yes") showContent();
+  } catch (e) {}
+</script>
+</body>
+</html>
