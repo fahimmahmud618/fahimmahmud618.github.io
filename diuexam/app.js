@@ -9,7 +9,7 @@ const CONFIG = {
   // Paste the Web App URL you get after deploying Code.gs (see setup steps)
   SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyF1haDRGP5Eh-ISeM0oIw3g2NDnbOj-74gndb6I-qpq28Ec9rkuRmheKb2uPwWNHfX/exec",
 
-  EXAM_TITLE: "Fall 2026, 44J OSSP Lab Performance Exam",
+  EXAM_TITLE: "Linux Command Practice",
   DURATION_MIN: 50,   // exam time in minutes
   VIVA_COUNT: 6,      // how many random viva questions each student gets
 
@@ -104,8 +104,12 @@ const CONFIG = {
 
   // ---------- helpers ----------
   async function api(payload) {
-    const res = await fetch(CONFIG.SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
-    return await res.json();
+    let res;
+    try { res = await fetch(CONFIG.SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) }); }
+    catch (e) { throw new Error("Cannot reach the server. Check your internet. (If it keeps happening, the teacher should check the Web App URL and that access is set to Anyone.)"); }
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch (e) { throw new Error("The server did not return data (HTTP " + res.status + "). Teacher: redeploy the Web App with access set to Anyone, and use the /exec URL."); }
   }
   function load() { try { state = JSON.parse(localStorage.getItem(KEY)); } catch (e) { state = null; } }
   function persist() { localStorage.setItem(KEY, JSON.stringify(state)); }
@@ -133,7 +137,7 @@ const CONFIG = {
     if (CONFIG.SCRIPT_URL.indexOf("PASTE") === 0) throw new Error("The website is not connected to Google Sheet yet.");
     let r;
     try { r = await api({ action: "login", id, name, col, passcode: pass }); }
-    catch (e) { throw new Error("Cannot reach the server. Check your internet and try again."); }
+    catch (e) { throw e; }
     if (!r.ok) throw new Error(r.error || "Login failed.");
 
     let s = r.state;
