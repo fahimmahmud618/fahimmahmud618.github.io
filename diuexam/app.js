@@ -7,7 +7,7 @@ const F = (n) => ({ n, file: true });
 // ============================================================
 const CONFIG = {
   // Paste the Web App URL you get after deploying Code.gs (see setup steps)
-  SCRIPT_URL: "PASTE_YOUR_WEB_APP_URL_HERE",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyF1haDRGP5Eh-ISeM0oIw3g2NDnbOj-74gndb6I-qpq28Ec9rkuRmheKb2uPwWNHfX/exec",
 
   EXAM_TITLE: "Linux Command Practice",
   DURATION_MIN: 50,   // exam time in minutes
