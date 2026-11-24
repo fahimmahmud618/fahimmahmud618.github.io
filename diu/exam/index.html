@@ -1,11 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Six Boxes</title>
+<title>Exam Instructions</title>
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
   body {
     font-family: "Segoe UI", Arial, sans-serif;
@@ -39,27 +45,89 @@
     color: #444;
   }
 
-  /* Alternate colors: light pink, light green */
-  .box:nth-child(odd)  { background: #ffd1dc; }
-  .box:nth-child(even) { background: #c8f2cf; }
+  /* Alternating colors: light green and light pink */
+  .box:nth-child(odd) {
+    background: #c8f2cf;
+  }
 
-  /* Text area shown below the boxes */
+  .box:nth-child(even) {
+    background: #ffd1dc;
+  }
+
+  /* Link/message section */
   .message {
     width: 100%;
     max-width: 1000px;
     margin-top: 30px;
-    padding: 20px 24px;
+    padding: 24px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    font-size: 1.15rem;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
     line-height: 1.6;
     text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  /* Exam instructions section */
+  .instructions {
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 25px;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  .instructions h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.4rem;
+  }
+
+  .instructions ol {
+    padding-left: 25px;
+  }
+
+  .instructions li {
+    margin-bottom: 15px;
+    padding-left: 5px;
+  }
+
+  .instructions strong {
+    color: #222;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
+    body {
+      padding: 25px 10px;
+    }
+
+    .instructions {
+      padding: 18px;
+      font-size: 0.95rem;
+    }
+
+    .instructions h2 {
+      font-size: 1.2rem;
+    }
+
+    .message {
+      padding: 18px;
+    }
   }
 </style>
 </head>
+
 <body>
 
+  <!-- Six colored boxes -->
   <div class="boxes">
     <div class="box">1</div>
     <div class="box">2</div>
@@ -69,14 +137,50 @@
     <div class="box">6</div>
   </div>
 
-  <!-- Change this text whenever you want -->
+  <!-- Link/message section -->
   <div class="message" id="message"></div>
 
+  <!-- Exam instructions -->
+  <div class="instructions">
+
+    <h2>IMPORTANT EXAM INSTRUCTIONS</h2>
+
+    <ol>
+
+      <li>
+        <strong>Question Categories:</strong>
+        There are two different question categories, each represented by a different color based on the assigned column. The corresponding color will be displayed on the screen.
+      </li>
+
+      <li>
+        <strong>Tab Switching Prohibited:</strong>
+        Any attempt to switch tabs or navigate away from the exam screen will be detected. Students attempting to do so will be immediately expelled from the exam.
+      </li>
+
+      <li>
+        <strong>Electronic Devices and Notes Prohibited:</strong>
+        Students are strictly prohibited from using mobile phones, smartwatches, or any electronic devices other than the assigned lab PC. The use of notebooks or written notes is also not allowed.
+      </li>
+
+      <li>
+        <strong>Countdown Timer and Submission:</strong>
+        A countdown timer will be displayed in the top-right corner of the screen. Students must complete and submit their exams within the allocated time.
+      </li>
+
+      <li>
+        <strong>Viva Examination:</strong>
+        Each student will receive different viva questions. Students are encouraged to express their answers freely and naturally, just as they would in a real conversation.
+      </li>
+
+    </ol>
+  </div>
+
 <script>
-  // ✏️ Edit this line to update the text under the boxes
-  const messageText = "Sign in to your Google account & Go to This Link:   fahimmahmud618.github.io/diuexam ";
+  // Edit this line to update the link/message
+  const messageText = "Go to this link: fahimmahmud618.github.io/diuexam";
 
   document.getElementById("message").textContent = messageText;
 </script>
+
 </body>
 </html>
