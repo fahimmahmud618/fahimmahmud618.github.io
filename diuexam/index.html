@@ -1,154 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resources</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #fafafa;
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  /* ---------- Password screen ---------- */
-  #lock {
-    background: #fff;
-    padding: 32px 28px;
-    border-radius: 16px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-    text-align: center;
-    width: 100%;
-    max-width: 340px;
-  }
-  #lock h2 { margin-bottom: 16px; }
-  #lock input {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    outline: none;
-  }
-  #lock input:focus { border-color: #9ad5a6; }
-  #lock button {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 10px;
-    background: #c8f2cf;
-    cursor: pointer;
-  }
-  #error { color: #d33; margin-top: 10px; min-height: 1.2em; font-size: 0.95rem; }
-
-  /* ---------- Protected content ---------- */
-  #content {
-    display: none;
-    width: 100%;
-    max-width: 520px;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .big-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 140px;
-    border-radius: 18px;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #444;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .big-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18); }
-  .pink  { background: #ffd1dc; }
-  .green { background: #c8f2cf; }
-
-  .submit-btn {
-    display: block;
-    text-align: center;
-    padding: 16px;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #fff;
-    background: #333;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: background 0.15s;
-  }
-  .submit-btn:hover { background: #555; }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exam</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="neutral">
 
-  <!-- Password screen -->
-  <div id="lock">
-    <h2>🔒 Enter Password</h2>
-    <input type="password" id="pw" placeholder="Password" autocomplete="off">
-    <button id="unlockBtn">Unlock</button>
-    <div id="error"></div>
+<div class="topbar" id="topbar" hidden>
+  <div class="who"><b id="who-name"></b> &middot; ID <span id="who-id"></span> &middot; <span class="badge" id="who-set"></span></div>
+  <div class="right"><span id="saveStatus"></span><span id="timer" class="timer"></span></div>
+</div>
+
+<!-- PAGE 1: LOGIN -->
+<main class="card narrow" id="page-login">
+  <h1 id="title"></h1>
+  <p class="muted">Enter your details and the passcode given by your teacher.</p>
+  <form id="loginForm" autocomplete="off">
+    <label for="name">Name</label>
+    <input type="text" id="name" required>
+    <label for="sid">ID</label>
+    <input type="text" id="sid" required>
+    <label for="col">Column no</label>
+    <input type="number" id="col" min="1" step="1" required>
+    <label for="pass">Passcode</label>
+    <input type="password" id="pass" required>
+    <button type="submit" id="loginBtn">Start Exam</button>
+    <div class="error" id="loginErr"></div>
+  </form>
+</main>
+
+<!-- PAGE 2: MENU -->
+<main class="card" id="page-menu" hidden>
+  <h2>Exam Menu</h2>
+  <p class="muted">Answer both sections, then press Submit Exam Paper. Your answers are saved automatically.</p>
+  <a class="btn menu-item" href="#written">Written Section<small id="wInfo"></small></a>
+  <a class="btn menu-item" href="#viva">Viva Section<small id="vInfo"></small></a>
+  <button id="submitBtn" class="danger">Submit Exam Paper</button>
+  <div id="msg"></div>
+  <button class="ghost" id="exitBtn">Exit (log out on this device)</button>
+</main>
+
+<!-- PAGE 3: WRITTEN -->
+<main class="card" id="page-written" hidden>
+  <h2>Written Section</h2>
+  <div id="list"></div>
+  <a class="btn ghost" href="#menu">Back to Menu</a>
+</main>
+
+<!-- PAGE 4: VIVA -->
+<main class="card" id="page-viva" hidden>
+  <h2>Viva Section</h2>
+  <p class="muted">Answer each question in the chat. The next question appears after you send your answer.</p>
+  <div id="chat"></div>
+  <div id="composer">
+    <textarea id="input" placeholder="Type your answer... (Enter to send, Shift+Enter for new line)"></textarea>
+    <button id="send">Send</button>
   </div>
+  <a class="btn ghost" href="#menu">Back to Menu</a>
+</main>
 
-  <!-- Protected content -->
-  <div id="content">
-    <!-- 🔗 Replace the two Google Drive links below -->
-    <a class="big-btn pink"  href="https://docs.google.com/document/d/1ljwXjetQDepNjTducE_EB-0HUMeioYJZ/edit?usp=drivesdk&ouid=104534553168853914331&rtpof=true&sd=true" target="_blank" rel="noopener">Pink Column</a>
-    <a class="big-btn green" href="https://docs.google.com/document/d/1l7CnrhoJ7s6hHjeBaMa6A8RChoN5TJWk/edit?usp=drivesdk&ouid=104534553168853914331&rtpof=true&sd=true" target="_blank" rel="noopener">Green Column</a>
-
-    <a class="submit-btn" href="https://forms.gle/A8HqUforFuLFxd4y6" target="_blank" rel="noopener">Submit Answer</a>
-  </div>
-
-<script>
-  // SHA-256 hash of the password (the password itself is not written in the code)
-  const PASSWORD_HASH = "8b03c6159ef41779c3297ca33fe1d87966c5ec7032682d7214c1966e4fa53f11";
-
-  async function sha256(text) {
-    const data = new TextEncoder().encode(text);
-    const buf = await crypto.subtle.digest("SHA-256", data);
-    return Array.from(new Uint8Array(buf))
-      .map(b => b.toString(16).padStart(2, "0"))
-      .join("");
-  }
-
-  function showContent() {
-    document.getElementById("lock").style.display = "none";
-    document.getElementById("content").style.display = "flex";
-  }
-
-  async function checkPassword() {
-    const value = document.getElementById("pw").value.trim();
-    const hash = await sha256(value);
-    if (hash === PASSWORD_HASH) {
-      try { sessionStorage.setItem("unlocked", "yes"); } catch (e) {}
-      showContent();
-    } else {
-      document.getElementById("error").textContent = "Wrong password. Try again.";
-      document.getElementById("pw").value = "";
-    }
-  }
-
-  document.getElementById("unlockBtn").addEventListener("click", checkPassword);
-  document.getElementById("pw").addEventListener("keydown", e => {
-    if (e.key === "Enter") checkPassword();
-  });
-
-  // Stay unlocked while the tab is open
-  try {
-    if (sessionStorage.getItem("unlocked") === "yes") showContent();
-  } catch (e) {}
-</script>
+<script src="app.js"></script>
 </body>
 </html>
